@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import avatar from '../assets/avatar.jpeg';
+
+const name = 'Walter Toledo';
+const role = 'Desarrollador de Software Fullstack';
+const title = 'Analista en Sistemas Informáticos';
+const tagline = 'Construyo productos web de punta a punta, del diseño al deploy.';
+---
+
+<section
+  id="inicio"
+  class="scroll-mt-20 flex min-h-[70vh] flex-col items-center justify-center gap-4 px-4 text-center"
+>
+  <Image
+    src={avatar}
+    alt={`Foto de perfil de ${name}`}
+    width={160}
+    height={160}
+    class="h-40 w-40 rounded-full object-cover"
+  />
+  <h1 class="text-4xl font-bold sm:text-5xl">{name}</h1>
+  <p class="text-xl font-medium text-gray-700 dark:text-gray-300">{role}</p>
+  <p class="text-gray-600 dark:text-gray-400">{title}</p>
+  <p class="max-w-md text-gray-600 dark:text-gray-400">{tagline}</p>
+
+  <div class="mt-4 flex flex-wrap justify-center gap-4">
+    <a
+      href="#proyectos"
+      class="rounded bg-gray-900 px-6 py-3 font-medium text-white hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
+    >
+      Ver proyectos
+    </a>
+    <a
+      href="#contacto"
+      class="rounded border border-gray-900 px-6 py-3 font-medium hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 dark:border-white dark:hover:bg-gray-800"
+    >
+      Contactarme
+    </a>
+  </div>
+</section>

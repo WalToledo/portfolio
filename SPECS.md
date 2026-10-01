@@ -32,8 +32,8 @@ Todo lo marcado con `PENDIENTE` lo completa Walter antes de trabajar el hito cor
 - **Nombre:** Walter Toledo
 - **Rol:** Desarrollador de Software Fullstack
 - **Título:** Analista en Sistemas Informáticos
-- **Frase de presentación:** `PENDIENTE` (una línea corta)
-- **Avatar:** `PENDIENTE` → `src/assets/avatar.(jpg|png)`, con `alt` descriptivo
+- **Frase de presentación:** Construyo productos web de punta a punta, del diseño al deploy.
+- **Avatar:** `src/assets/avatar.jpeg`, con `alt` descriptivo
 
 ### 3.2 Sobre mí
 
@@ -121,7 +121,7 @@ Candidatos (`PENDIENTE: confirmar cuáles, completar datos y links`):
 
 1. Setup: proyecto Astro + Tailwind, `.gitignore`, README base. [DONE]
 2. Layout base (`Base.astro`) + Navbar + Footer + skip link. [DONE]
-3. Hero.
+3. Hero. [DONE]
 4. Sobre mí + skills.
 5. Proyectos + tarjetas.
 6. Contacto + formulario con validación.
