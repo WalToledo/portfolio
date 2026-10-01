@@ -32,20 +32,31 @@ Todo lo marcado con `PENDIENTE` lo completa Walter antes de trabajar el hito cor
 - **Nombre:** Walter Toledo
 - **Rol:** Desarrollador de Software Fullstack
 - **Título:** Analista en Sistemas Informáticos
-- **Frase de presentación:** `PENDIENTE` (una línea corta)
-- **Avatar:** `PENDIENTE` → `src/assets/avatar.(jpg|png)`, con `alt` descriptivo
+- **Frase de presentación:** Construyo productos web de punta a punta, del diseño al deploy.
+- **Avatar:** `src/assets/avatar.jpeg`, con `alt` descriptivo
 
 ### 3.2 Sobre mí
 
-- **Bio (2 a 4 oraciones, escrita por Walter):** `PENDIENTE`
+- **Bio (2 a 4 oraciones, escrita por Walter):** Soy Walter Toledo, desarrollador fullstack de Rosario, Argentina. Trabajo con React, Node.js y TypeScript, cubriendo todo el ciclo de un proyecto: modelado de datos, backend, interfaz y deploy. Además, incorporo agentes de IA en mi flujo de desarrollo para trabajar más rápido sin perder calidad.
+
+Como freelance desarrollé soluciones para clientes, como plataformas de suscripción, e-commerce y paneles de gestión. Soy Analista en Sistemas Informáticos, estudio Ingeniería en Sistemas y me estoy formando en infraestructura: cómo se despliegan, escalan y mantienen las aplicaciones en producción.
 - **Habilidades por categoría:**
-  - Frontend: `PENDIENTE`
-  - Backend: `PENDIENTE`
-  - Herramientas: `PENDIENTE` (Git, Docker, Linux, etc.)
+  - Frontend: React, TypeScript, JavaScript, Tailwind CSS, HTML, CSS
+  - Backend: Node.js, Prisma (ORM), C, C#, .NET, diseño y consumo de
+APIs REST.
+  - Herramientas: Git, GitHub, Bases de datos (SQL, NoSQL), Docker
+  - Idiomas: Inglés, Español
 
 Los datos viven en `src/data/skills.ts`.
 
-### 3.3 Proyectos (mínimo 3)
+### 3.3 Experiencia laboral
+
+- **Puesto actual:** Jusmet, Desarrollador de Software Fullstack Junior (2026–actualidad)
+- Si hay experiencia previa relevante para mostrar, se agrega como entrada adicional (empresa, rol, período).
+
+Los datos viven en `src/data/experience.ts` (nuevo archivo, mismo patrón que `projects.ts` y `skills.ts`).
+
+### 3.4 Proyectos (mínimo 3)
 
 Cada proyecto: título, descripción breve (1–2 oraciones), tecnologías, link a repo y/o demo.
 Los datos viven en `src/data/projects.ts`.
@@ -59,14 +70,14 @@ Candidatos (`PENDIENTE: confirmar cuáles, completar datos y links`):
 
 > Proyectos de clientes: confirmar permiso para mostrarlos. Si el repo es privado, linkear la demo o presentarlo sin repo.
 
-### 3.4 Contacto
+### 3.5 Contacto
 
-- **Email:** `PENDIENTE`
-- **GitHub:** `PENDIENTE`
-- **LinkedIn:** `PENDIENTE`
-- **Formulario:** nombre, email, mensaje. Validación obligatoria (ver 4.4)
+- **Email:** toledowalter836@gmail.com
+- **GitHub:** https://github.com/WalToledo
+- **LinkedIn:** https://www.linkedin.com/in/walter-ariel-toledo
+- **Formulario:** nombre, email, mensaje. Validación obligatoria (ver 4.6)
 
-### 3.5 CV
+### 3.6 CV
 
 - `PENDIENTE` → `public/cv-walter-toledo.pdf`, botón "Descargar CV" en Hero o Sobre mí
 
@@ -74,7 +85,7 @@ Candidatos (`PENDIENTE: confirmar cuáles, completar datos y links`):
 
 ### 4.1 Navbar (`<header>` + `<nav>`)
 
-- Links a: Inicio, Sobre mí, Proyectos, Contacto (anclas `#`).
+- Links a: Inicio, Sobre mí, Experiencia, Proyectos, Contacto (anclas `#`).
 - Fija arriba, con scroll suave (desactivado bajo `prefers-reduced-motion`).
 - Mobile: menú hamburguesa con `aria-expanded`, `aria-controls`, cierre con Escape y al elegir un link.
 - Link "Saltar al contenido" visible al recibir foco.
@@ -87,14 +98,23 @@ Candidatos (`PENDIENTE: confirmar cuáles, completar datos y links`):
 - Botones: "Ver proyectos" → `#proyectos`, "Contactarme" → `#contacto`.
 - Avatar optimizado.
 
-### 4.3 Sobre mí (`<section id="sobre-mi">`) y Proyectos (`<section id="proyectos">`)
+### 4.3 Sobre mí (`<section id="sobre-mi">`)
 
-- Sobre mí: bio + skills agrupadas en tres bloques con títulos `h3`.
-- Proyectos: grilla de tarjetas (`<article>`), 1 columna en mobile, 2 en tablet, 3 en desktop.
+- Bio + skills agrupadas en tres bloques con títulos `h3`.
+
+### 4.4 Experiencia laboral (`<section id="experiencia">`)
+
+- Listado de experiencia (al menos el puesto actual) como timeline o tarjetas (`<article>`).
+- Cada entrada: puesto, empresa y período.
+- Orden cronológico inverso (más reciente primero).
+
+### 4.5 Proyectos (`<section id="proyectos">`)
+
+- Grilla de tarjetas (`<article>`), 1 columna en mobile, 2 en tablet, 3 en desktop.
 - Tecnologías como chips con `flex-wrap` (evitar overflow a 360px).
 - Links externos con `target="_blank" rel="noopener noreferrer"` y texto accesible (ej. "Ver repositorio de CineTracker").
 
-### 4.4 Contacto (`<section id="contacto">`)
+### 4.6 Contacto (`<section id="contacto">`)
 
 - Email, GitHub y LinkedIn con íconos + texto o `aria-label`.
 - Formulario:
@@ -103,7 +123,7 @@ Candidatos (`PENDIENTE: confirmar cuáles, completar datos y links`):
   - Errores anunciados con `aria-live="polite"` y `aria-describedby` en cada campo.
   - Estado de envío (enviando / enviado / error) sin recargar la página.
 
-### 4.5 Footer (`<footer>`)
+### 4.7 Footer (`<footer>`)
 
 - Nombre, año y links sociales.
 
@@ -119,24 +139,26 @@ Candidatos (`PENDIENTE: confirmar cuáles, completar datos y links`):
 
 ## 6. Hitos (un commit por hito)
 
-1. Setup: proyecto Astro + Tailwind, `.gitignore`, README base.
-2. Layout base (`Base.astro`) + Navbar + Footer + skip link.
-3. Hero.
-4. Sobre mí + skills.
-5. Proyectos + tarjetas.
-6. Contacto + formulario con validación.
-7. Pasada de responsive y accesibilidad.
-8. Modo oscuro / claro.
-9. Animaciones con `prefers-reduced-motion`.
-10. CV descargable + SEO/meta.
-11. Deploy en Vercel + auditoría Lighthouse y correcciones.
-12. README final (stack, cómo correrlo, link al deploy).
+1. Setup: proyecto Astro + Tailwind, `.gitignore`, README base. [DONE]
+2. Layout base (`Base.astro`) + Navbar + Footer + skip link. [DONE]
+3. Hero. [DONE]
+4. Sobre mí + skills. [DONE]
+5. Experiencia laboral.
+6. Proyectos + tarjetas.
+7. Contacto + formulario con validación.
+8. Pasada de responsive y accesibilidad.
+9. Modo oscuro / claro.
+10. Animaciones con `prefers-reduced-motion`.
+11. CV descargable + SEO/meta.
+12. Deploy en Vercel + auditoría Lighthouse y correcciones.
+13. README final (stack, cómo correrlo, link al deploy).
 
 ## 7. Checklist de aceptación
 
 ### Obligatorios
 - [ ] Hero con nombre, rol, frase y botón que lleva a su sección
-- [ ] Sobre mí con bio de 2–4 oraciones y skills por categoría
+- [x] Sobre mí con bio de 2–4 oraciones y skills por categoría
+- [ ] Experiencia laboral con al menos el puesto actual (empresa, rol, período)
 - [ ] Al menos 3 proyectos con título, descripción, tecnologías y link
 - [ ] Contacto con email, GitHub y LinkedIn
 - [ ] Navbar que llega a todas las secciones
