@@ -1,19 +1,9 @@
 ---
-// Página provisoria del hito 1: solo confirma que Astro y Tailwind funcionan.
-// En el hito 2 el <head> pasa al layout Base.astro.
-import '../styles/global.css';
+import Base from '../layouts/Base.astro';
 ---
 
-<html lang="es">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Walter Toledo</title>
-	</head>
-	<body class="min-h-screen grid place-items-center">
+<Base title="Walter Toledo">
+	<div class="grid min-h-[50vh] place-items-center">
 		<h1 class="text-4xl font-bold">Walter Toledo</h1>
-	</body>
-</html>
+	</div>
+</Base>

@@ -61,9 +61,9 @@ Candidatos (`PENDIENTE: confirmar cuáles, completar datos y links`):
 
 ### 3.4 Contacto
 
-- **Email:** `PENDIENTE`
-- **GitHub:** `PENDIENTE`
-- **LinkedIn:** `PENDIENTE`
+- **Email:** toledowalter836@gmail.com
+- **GitHub:** https://github.com/WalToledo
+- **LinkedIn:** https://www.linkedin.com/in/walter-ariel-toledo
 - **Formulario:** nombre, email, mensaje. Validación obligatoria (ver 4.4)
 
 ### 3.5 CV
@@ -119,8 +119,8 @@ Candidatos (`PENDIENTE: confirmar cuáles, completar datos y links`):
 
 ## 6. Hitos (un commit por hito)
 
-1. Setup: proyecto Astro + Tailwind, `.gitignore`, README base.
-2. Layout base (`Base.astro`) + Navbar + Footer + skip link.
+1. Setup: proyecto Astro + Tailwind, `.gitignore`, README base. [DONE]
+2. Layout base (`Base.astro`) + Navbar + Footer + skip link. [DONE]
 3. Hero.
 4. Sobre mí + skills.
 5. Proyectos + tarjetas.

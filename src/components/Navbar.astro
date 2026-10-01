@@ -1,0 +1,91 @@
+---
+// Links de navegación: anclas a secciones que todavía no existen (se crean en hitos 3-6).
+const navLinks = [
+  { href: '#inicio', label: 'Inicio' },
+  { href: '#sobre-mi', label: 'Sobre mí' },
+  { href: '#proyectos', label: 'Proyectos' },
+  { href: '#contacto', label: 'Contacto' },
+];
+---
+
+<header class="sticky top-0 z-40 border-b border-gray-200 bg-white/90 backdrop-blur dark:border-gray-800 dark:bg-gray-900/90">
+  <nav aria-label="Navegación principal" class="relative mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+    <a href="#inicio" class="text-lg font-bold focus-visible:outline focus-visible:outline-2">
+      Walter Toledo
+    </a>
+
+    <div class="flex items-center gap-2">
+      <!-- Toggle de tema: solo UI en este hito, lógica real en hito 8 -->
+      <button
+        id="theme-toggle"
+        type="button"
+        aria-label="Cambiar tema claro u oscuro"
+        class="inline-flex rounded p-2 focus-visible:outline focus-visible:outline-2"
+      >
+        <svg class="hidden h-5 w-5 dark:block" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5" />
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+        </svg>
+        <svg class="h-5 w-5 dark:hidden" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+        </svg>
+      </button>
+
+      <!-- Botón hamburguesa, solo mobile -->
+      <button
+        id="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+        aria-label="Abrir menú de navegación"
+        class="inline-flex rounded p-2 focus-visible:outline focus-visible:outline-2 md:hidden"
+      >
+        <svg class="h-6 w-6" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <ul
+      id="nav-menu"
+      class="absolute left-0 top-full hidden w-full flex-col gap-4 border-b border-gray-200 bg-white p-4 md:static md:flex md:w-auto md:flex-row md:gap-6 md:border-0 md:bg-transparent md:p-0 dark:border-gray-800 dark:bg-gray-900"
+    >
+      {navLinks.map((link) => (
+        <li>
+          <a href={link.href} class="block py-2 hover:underline focus-visible:outline focus-visible:outline-2 md:py-0">
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<script>
+  // Menú mobile: abrir/cerrar, cerrar con Escape, cerrar al elegir un link.
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('nav-menu');
+
+  const setOpen = (open: boolean) => {
+    menu?.classList.toggle('hidden', !open);
+    menu?.classList.toggle('flex', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    toggle?.setAttribute('aria-label', open ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
+  };
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    setOpen(!isOpen);
+  });
+
+  menu?.addEventListener('click', (event) => {
+    if ((event.target as HTMLElement).closest('a')) setOpen(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+</script>
