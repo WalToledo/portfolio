@@ -17,14 +17,16 @@ const tagline = 'Construyo productos web de punta a punta, del diseño al deploy
     alt={`Foto de perfil de ${name}`}
     width={160}
     height={160}
+    data-reveal-load
+    style="--reveal-delay: 0ms"
     class="h-40 w-40 rounded-full object-cover"
   />
-  <h1 class="text-4xl font-bold sm:text-5xl">{name}</h1>
-  <p class="text-xl font-medium text-gray-700 dark:text-gray-300">{role}</p>
-  <p class="text-gray-600 dark:text-gray-400">{title}</p>
-  <p class="max-w-md text-gray-600 dark:text-gray-400">{tagline}</p>
+  <h1 data-reveal-load style="--reveal-delay: 90ms" class="text-4xl font-bold sm:text-5xl">{name}</h1>
+  <p data-reveal-load style="--reveal-delay: 160ms" class="text-xl font-medium text-gray-700 dark:text-gray-300">{role}</p>
+  <p data-reveal-load style="--reveal-delay: 220ms" class="text-gray-600 dark:text-gray-400">{title}</p>
+  <p data-reveal-load style="--reveal-delay: 280ms" class="max-w-md text-gray-600 dark:text-gray-400">{tagline}</p>
 
-  <div class="mt-4 flex flex-wrap justify-center gap-4">
+  <div data-reveal-load style="--reveal-delay: 340ms" class="mt-4 flex flex-wrap justify-center gap-4">
     <a
       href="#proyectos"
       class="rounded bg-gray-900 px-6 py-3 font-medium text-white hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
