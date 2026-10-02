@@ -176,7 +176,7 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 4. Sobre mí + skills. [DONE]
 5. Experiencia laboral. [DONE]
 6. Proyectos + tarjetas. [DONE]
-7. Contacto + formulario con validación.
+7. Contacto + formulario con validación. [DONE]
 8. Pasada de responsive y accesibilidad.
 9. Modo oscuro / claro.
 10. Animaciones con `prefers-reduced-motion`.
@@ -191,7 +191,7 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 - [x] Sobre mí con bio de 2–4 oraciones y skills por categoría
 - [x] Experiencia laboral con al menos el puesto actual (empresa, rol, período)
 - [x] Al menos 3 proyectos con título, descripción, tecnologías y link
-- [ ] Contacto con email, GitHub y LinkedIn
+- [x] Contacto con email, GitHub y LinkedIn
 - [ ] Navbar que llega a todas las secciones
 - [ ] Sin scroll horizontal en 360 / 768 / 1280 px
 - [ ] `header`, `nav`, `main`, `section`, `footer` y un solo `h1`
@@ -202,7 +202,7 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 - [ ] Deploy público en Vercel
 
 ### Opcionales
-- [ ] Formulario con validación
+- [x] Formulario con validación
 - [ ] Modo oscuro y claro
 - [ ] Animaciones que respetan `prefers-reduced-motion`
 - [ ] CV descargable en PDF
