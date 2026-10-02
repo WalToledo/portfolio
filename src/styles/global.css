@@ -4,6 +4,59 @@
    fuerce el tema sin depender solo de la preferencia del sistema. */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Space Grotesk solo en dos pesos (500/700), auto-hosteada en public/fonts/ para no
+   depender de Google Fonts en runtime. font-display: swap evita texto invisible
+   mientras carga: se ve con la fuente de sistema y "salta" a Space Grotesk apenas está. */
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/space-grotesk-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/space-grotesk-700.woff2") format("woff2");
+}
+
+/* Tokens de color (light/dark) + fuente display. Generan utilidades Tailwind v4
+   (bg-canvas, text-ink, border-border, font-display, etc.) que resuelven a estas
+   variables: overridearlas bajo .dark alcanza para cambiar todo el sitio de tema
+   sin repetir "dark:" en cada componente. */
+@theme {
+  --color-canvas: #f7f8fb;
+  --color-surface: #ffffff;
+  --color-ink: #111827;
+  --color-muted: #5b6472;
+  /* #e3e7ee original quedaba ~1.2:1 contra canvas/surface (invisible como borde de
+     input/card). Este tono pasa 3:1 contra ambos, el mínimo WCAG 1.4.11 para límites
+     de componentes UI. */
+  --color-border: #898d94;
+  --color-accent: #4f6bff;
+  /* Variante de accent solo para texto (links): #4F6BFF sobre canvas/surface claros
+     no llega a 4.5:1 para texto normal (sale ~4.05:1), así que el texto usa este tono
+     más oscuro. El accent original se mantiene para focus-ring/fills, que solo
+     necesitan 3:1 por ser uso no-textual. */
+  --color-accent-text: #3a50e0;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+
+.dark {
+  --color-canvas: #0b1220;
+  --color-surface: #111a2e;
+  --color-ink: #e5e9f2;
+  --color-muted: #93a0b4;
+  --color-border: #5e6880;
+  --color-accent: #7c90ff;
+  /* En dark, el accent base ya da ~6.5:1 sobre canvas como texto: no hace falta
+     un tono separado para links. */
+  --color-accent-text: #7c90ff;
+}
+
 /* Animaciones de entrada: solo existen bajo "no-preference", así que con
    prefers-reduced-motion activado el contenido queda visible de entrada,
    sin depender de JS para revertir nada. */
@@ -35,4 +88,10 @@
       transform: translateY(0);
     }
   }
+}
+
+/* Cards de Experience/Projects: el feedback de hover/focus es un cambio de color de
+   borde (sin sombra ni translateY), así que la transición queda centralizada acá. */
+.card-border-transition {
+  transition: border-color 0.2s ease-out;
 }
