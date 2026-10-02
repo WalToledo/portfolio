@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+/* Dark mode por clase (en vez de prefers-color-scheme): permite que el toggle del Navbar
+   fuerce el tema sin depender solo de la preferencia del sistema. */
+@custom-variant dark (&:where(.dark, .dark *));
