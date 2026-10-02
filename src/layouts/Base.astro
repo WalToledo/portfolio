@@ -14,6 +14,16 @@ const { title = 'Walter Toledo' } = Astro.props;
 
 <html lang="es" class="motion-safe:scroll-smooth">
   <head>
+    <script is:inline>
+      // Aplica el tema guardado (o la preferencia del SO) antes del primer render,
+      // para evitar el flash de tema incorrecto (FOUC).
+      (function () {
+        const stored = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = stored ? stored === 'dark' : prefersDark;
+        document.documentElement.classList.toggle('dark', isDark);
+      })();
+    </script>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />

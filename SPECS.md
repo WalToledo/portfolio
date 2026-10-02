@@ -178,7 +178,7 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 6. Proyectos + tarjetas. [DONE]
 7. Contacto + formulario con validación. [DONE]
 8. Pasada de responsive y accesibilidad. [DONE]
-9. Modo oscuro / claro.
+9. Modo oscuro / claro. [DONE]
 10. Animaciones con `prefers-reduced-motion`.
 11. CV descargable + SEO/meta.
 12. Deploy en Vercel + auditoría Lighthouse y correcciones.
@@ -203,7 +203,7 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 
 ### Opcionales
 - [x] Formulario con validación
-- [ ] Modo oscuro y claro
+- [x] Modo oscuro y claro
 - [ ] Animaciones que respetan `prefers-reduced-motion`
 - [ ] CV descargable en PDF
 - [ ] Lighthouse ≥ 90 en Performance y Accessibility
