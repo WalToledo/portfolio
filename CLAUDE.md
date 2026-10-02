@@ -32,3 +32,6 @@ npm run preview    # servir el build localmente
 - HTML semántico y accesible: un solo `h1`, labels en los inputs, foco visible, `alt` descriptivos.
 - Todo texto visible en español.
 - Nombres de archivos y componentes en inglés; contenido y comentarios en español.
+
+   ## Memoria
+   - Para memoria persistente usá Engram, no MEMORY.md.
