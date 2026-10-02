@@ -41,8 +41,8 @@ Todo lo marcado con `PENDIENTE` lo completa Walter antes de trabajar el hito cor
 
 Como freelance desarrollé soluciones para clientes, como plataformas de suscripción, e-commerce y paneles de gestión. Soy Analista en Sistemas Informáticos, estudio Ingeniería en Sistemas y me estoy formando en infraestructura: cómo se despliegan, escalan y mantienen las aplicaciones en producción.
 - **Habilidades por categoría:**
-  - Frontend: React, TypeScript, JavaScript, Tailwind CSS, HTML, CSS
-  - Backend: Node.js, Prisma (ORM), C, C#, .NET, diseño y consumo de
+  - Frontend: React, Next.js, TypeScript, JavaScript, Tailwind CSS, HTML, CSS
+  - Backend: Node.js, Next.js, Prisma (ORM), C, C#, .NET, diseño y consumo de
 APIs REST.
   - Herramientas: Git, GitHub, Bases de datos (SQL, NoSQL), Docker
   - Idiomas: Inglés, Español
@@ -61,14 +61,45 @@ Los datos viven en `src/data/experience.ts` (nuevo archivo, mismo patrón que `p
 Cada proyecto: título, descripción breve (1–2 oraciones), tecnologías, link a repo y/o demo.
 Los datos viven en `src/data/projects.ts`.
 
-Candidatos (`PENDIENTE: confirmar cuáles, completar datos y links`):
+Proyectos confirmados:
 
-1. **CineTracker** — descripción, stack, links: `PENDIENTE`
-2. **Plataforma de entrenadores personales** (marketplace de suscripciones, proyecto para cliente) — `PENDIENTE`
-3. **Tienda de ropa online "Berlín"** (ecommerce, proyecto para cliente) — `PENDIENTE`
-4. **Este portfolio** — Astro + Tailwind, link al repo y al deploy
+1. **CineTracker**
+Descripcion: aplicación web diseñada para que los amantes del cine puedan descubrir nuevos títulos, gestionar su propia lista de visualización y dar reseñas de cada lanzamiento.
 
-> Proyectos de clientes: confirmar permiso para mostrarlos. Si el repo es privado, linkear la demo o presentarlo sin repo.
+Stack: Arquitectura: Monorepositorio (workspaces de npm / carpeta raíz con frontend y backend).
+Frontend: React (construido con Vite), TypeScript, Tailwind CSS.
+Backend: Node.js, Express, TypeScript.
+Base de Datos & ORM: MySQL, Prisma.
+Testing: Vitest (runner global), Supertest (API del backend), React Testing Library (componentes del frontend).
+IA: Integración con Context7 MCP.
+
+Repositorio: https://github.com/WalToledo/cine-tracker
+
+2. **SmartCloth Logistics**
+Descripcion: PLATAFORMA E-COMMERCE Y GESTIÓN LOGÍSTICA. Solución integral para automatizar la distribución de indumentaria, conectando una tienda online con un sistema de logística de precisión.
+
+Stack: rquitectura N-Capas utilizando React y Next.js para el frontend y
+Node.js para la lógica de negocio.
+Integración de servicios SaaS, incluyendo Stripe para pagos, Clerk para
+autenticación y Resend para notificaciones.
+Gestión de persistencia utilizando Sanity (Content Lake) con consultas GROQ, y  
+Prisma ORM con MySQL para modelar el esquema del módulo de auditoría.
+
+Repositorio: https://github.com/fassardi245/SmartCloth
+
+
+3. **Grito de Gol** 
+Descripcion: Dashboard interactivo para la visualización dinámica de información sobre ligas, equipos, partidos y estadísticas de fútbol.
+
+Stack: Construcción de la interfaz y lógica del cliente con Next.js, TypeScript y Tailwind
+CSS, implementando navegación drill down y paneles interactivos de posiciones
+con semaforización de resultados.
+Diseño de la arquitectura de base de datos relacional con MySQL, integrada
+mediante Prisma ORM.
+
+Repositorio: https://github.com/WalToledo/GritoDeGol
+
+> Proyectos de clientes/grupales: permiso para mostrarlos confirmado por Walter.
 
 ### 3.5 Contacto
 
@@ -143,8 +174,8 @@ Candidatos (`PENDIENTE: confirmar cuáles, completar datos y links`):
 2. Layout base (`Base.astro`) + Navbar + Footer + skip link. [DONE]
 3. Hero. [DONE]
 4. Sobre mí + skills. [DONE]
-5. Experiencia laboral.
-6. Proyectos + tarjetas.
+5. Experiencia laboral. [DONE]
+6. Proyectos + tarjetas. [DONE]
 7. Contacto + formulario con validación.
 8. Pasada de responsive y accesibilidad.
 9. Modo oscuro / claro.
@@ -158,8 +189,8 @@ Candidatos (`PENDIENTE: confirmar cuáles, completar datos y links`):
 ### Obligatorios
 - [ ] Hero con nombre, rol, frase y botón que lleva a su sección
 - [x] Sobre mí con bio de 2–4 oraciones y skills por categoría
-- [ ] Experiencia laboral con al menos el puesto actual (empresa, rol, período)
-- [ ] Al menos 3 proyectos con título, descripción, tecnologías y link
+- [x] Experiencia laboral con al menos el puesto actual (empresa, rol, período)
+- [x] Al menos 3 proyectos con título, descripción, tecnologías y link
 - [ ] Contacto con email, GitHub y LinkedIn
 - [ ] Navbar que llega a todas las secciones
 - [ ] Sin scroll horizontal en 360 / 768 / 1280 px
