@@ -3,14 +3,17 @@ import { experience } from '../data/experience.ts';
 ---
 
 <section id="experiencia" data-reveal class="scroll-mt-20 mx-auto max-w-5xl px-4 py-16">
-  <h2 class="text-3xl font-bold">Experiencia laboral</h2>
+  <h2 class="font-display text-3xl font-bold">Experiencia laboral</h2>
 
+  <!-- Timeline: la línea conectora (border-l) solo se dibuja entre entradas (not-last),
+       así que con una única entrada se ve completa igual, sin cola colgando. -->
   <div class="mt-8 space-y-6">
     {experience.map(({ role, company, period }) => (
-      <article class="rounded border border-gray-200 p-5 dark:border-gray-800">
-        <h3 class="text-xl font-semibold">{role}</h3>
-        <p class="mt-1 text-gray-700 dark:text-gray-300">{company}</p>
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{period}</p>
+      <article class="relative pl-6 not-last:border-l-2 not-last:border-border">
+        <span aria-hidden="true" class="absolute left-0 top-1.5 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-accent"></span>
+        <h3 class="font-display text-xl font-medium">{role}</h3>
+        <p class="mt-1 text-muted">{company}</p>
+        <p class="mt-1 font-mono text-sm text-muted">{period}</p>
       </article>
     ))}
   </div>

@@ -3,24 +3,32 @@ import { projects } from '../data/projects.ts';
 ---
 
 <section id="proyectos" data-reveal class="scroll-mt-20 mx-auto max-w-5xl px-4 py-16">
-  <h2 class="text-3xl font-bold">Proyectos</h2>
+  <h2 class="font-display text-3xl font-bold">Proyectos</h2>
 
   <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
     {projects.map(({ title, description, stack, repoUrl }) => (
-      <article class="flex flex-col rounded border border-gray-200 p-5 dark:border-gray-800">
-        <h3 class="text-xl font-semibold">{title}</h3>
-        <p class="mt-2 text-gray-700 dark:text-gray-300">{description}</p>
-        <ul class="mt-4 flex flex-wrap gap-2">
+      <article class="card-border-transition flex flex-col rounded border border-border bg-surface p-5 hover:border-accent focus-within:border-accent">
+        <h3 class="font-display text-xl font-medium">{title}</h3>
+        {/* min-h reserva el espacio de la descripción más larga de las 3: así el bloque
+            de stack y la línea separadora arrancan a la misma altura en toda la fila,
+            en vez de que cada card "tire" el link hacia abajo con mt-auto. */}
+        <p class="mt-2 min-h-[7.5rem] text-muted">{description}</p>
+        <ul class="mt-4 min-h-[6.5rem] flex flex-wrap content-start gap-2">
           {stack.map((tech) => (
-            <li class="rounded bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800">{tech}</li>
+            <li class="rounded-md border border-border bg-canvas px-3 py-1 font-mono text-sm">{tech}</li>
           ))}
         </ul>
         <a
           href={repoUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="mt-auto pt-4 text-sm font-medium underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2"
+          class="mt-4 inline-flex items-center gap-2 border-t border-border pt-4 text-sm font-medium text-accent-text hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
         >
+          <svg class="h-4 w-4" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15 3 21 3 21 9" />
+            <line x1="10" y1="14" x2="21" y2="3" />
+          </svg>
           Ver repositorio de {title}
         </a>
       </article>
