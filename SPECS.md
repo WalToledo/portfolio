@@ -177,7 +177,7 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 5. Experiencia laboral. [DONE]
 6. Proyectos + tarjetas. [DONE]
 7. Contacto + formulario con validación. [DONE]
-8. Pasada de responsive y accesibilidad.
+8. Pasada de responsive y accesibilidad. [DONE]
 9. Modo oscuro / claro.
 10. Animaciones con `prefers-reduced-motion`.
 11. CV descargable + SEO/meta.
@@ -187,16 +187,16 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 ## 7. Checklist de aceptación
 
 ### Obligatorios
-- [ ] Hero con nombre, rol, frase y botón que lleva a su sección
+- [x] Hero con nombre, rol, frase y botón que lleva a su sección
 - [x] Sobre mí con bio de 2–4 oraciones y skills por categoría
 - [x] Experiencia laboral con al menos el puesto actual (empresa, rol, período)
 - [x] Al menos 3 proyectos con título, descripción, tecnologías y link
 - [x] Contacto con email, GitHub y LinkedIn
-- [ ] Navbar que llega a todas las secciones
-- [ ] Sin scroll horizontal en 360 / 768 / 1280 px
-- [ ] `header`, `nav`, `main`, `section`, `footer` y un solo `h1`
-- [ ] `alt` en todas las imágenes, contraste legible, navegable con teclado
-- [ ] Cero contenido de relleno
+- [x] Navbar que llega a todas las secciones
+- [x] Sin scroll horizontal en 360 / 768 / 1280 px
+- [x] `header`, `nav`, `main`, `section`, `footer` y un solo `h1`
+- [x] `alt` en todas las imágenes, contraste legible, navegable con teclado
+- [x] Cero contenido de relleno
 - [ ] Commits progresivos en GitHub
 - [ ] README con stack y cómo correrlo localmente
 - [ ] Deploy público en Vercel
