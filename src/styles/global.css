@@ -61,6 +61,10 @@
   --color-accent-subtle: #eef2ff;
   --color-accent-contrast: #ffffff;
   --color-danger-text: #b42318;
+  /* Segundo tono del acento, solo para degradados (texto del Hero, aro del
+     avatar, glow secundario). Elegido para que el extremo del degradado siga
+     cumpliendo 3:1 en texto grande: #0284c7 da 4.1:1 sobre canvas claro. */
+  --color-accent-alt: #0284c7;
 
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
 
@@ -87,6 +91,8 @@
   --color-accent-subtle: #121a2e;
   --color-accent-contrast: #0a0a0b;
   --color-danger-text: #ff9a92;
+  /* En dark el segundo tono va claro, igual que accent-text. */
+  --color-accent-alt: #38bdf8;
 }
 
 /* Sombras y glow: van como custom properties comunes, NO dentro de @theme.
@@ -107,6 +113,16 @@
   --shadow-btn-accent-hover: 0 2px 4px rgb(11 15 26 / 0.12),
     0 6px 16px color-mix(in oklab, var(--color-accent) 22%, transparent);
   --glow-strength: 16%;
+  /* Degradado del acento. Va acá y no en @theme por el mismo motivo que las
+     sombras: tiene que resolverse en runtime para seguir al tema. Como usa
+     var(), con pisar --color-accent-alt bajo .dark ya cambia solo: no hace
+     falta repetirlo en el bloque .dark. */
+  --gradient-accent: linear-gradient(
+    100deg,
+    var(--color-accent-text) 0%,
+    var(--color-accent) 45%,
+    var(--color-accent-alt) 100%
+  );
 }
 
 .dark {
@@ -359,6 +375,88 @@
       transparent 70%
     );
   }
+
+  /* Texto con el degradado del acento. Se usa SOLO en texto grande (el apellido
+     del h1): el extremo del degradado cumple 3:1, que es el mínimo de texto
+     grande, no el 4.5:1 de texto normal. No usarla en texto chico. */
+  .text-gradient {
+    /* Fallback: sin background-clip: text el texto quedaría transparente
+       (invisible), así que el color sólido va primero. */
+    color: var(--color-accent-text);
+  }
+
+  @supports (background-clip: text) or (-webkit-background-clip: text) {
+    .text-gradient {
+      background-image: var(--gradient-accent);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  /* Glow secundario del Hero, abajo a la izquierda y en el segundo tono: dos
+     fuentes de luz en distinto tono dan profundidad; una sola se lee plana.
+     Va más suave que el principal (0.7) para no empatarle. */
+  .hero-glow-alt {
+    background-image: radial-gradient(
+      42% 40% at 12% 88%,
+      color-mix(
+        in oklab,
+        var(--color-accent-alt) calc(var(--glow-strength) * 0.7),
+        transparent
+      ),
+      transparent 70%
+    );
+  }
+
+  /* Aro del avatar: el degradado va en un wrapper con padding, no como outline,
+     porque un outline no puede llevar degradado. Cónico (y no lineal) para que
+     el color gire alrededor de la foto y se lea como aro. */
+  .avatar-ring {
+    border-radius: 9999px;
+    padding: 3px;
+    background-image: conic-gradient(
+      from 180deg,
+      var(--color-accent-text),
+      var(--color-accent-alt),
+      var(--color-accent),
+      var(--color-accent-text)
+    );
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* Filete de acento de los rótulos (eyebrow del Hero y de SectionHeading).
+     Degradado a transparente: ancla el rótulo al borde del bloque sin cortarse
+     con una línea dura. */
+  .rule-accent {
+    height: 1px;
+    width: 1.5rem;
+    flex: none;
+    background-image: linear-gradient(to right, var(--color-accent), transparent);
+  }
+
+  /* Tinte superior de las secciones con bg-band: evita que la banda se lea como
+     un bloque plano de color. El ::before va con z-index negativo, así queda
+     arriba del fondo de la sección pero abajo del contenido. */
+  .section-tint {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .section-tint::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    z-index: -1;
+    height: 14rem;
+    pointer-events: none;
+    background-image: linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--color-accent) 7%, transparent),
+      transparent
+    );
+  }
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
@@ -411,4 +509,5 @@
    accent                4.78:1         5.71:1     3    (relleno / focus ring)
    accent-contrast sobre accent
                          5.17:1         6.26:1     4.5  (texto del botón)
+   accent-alt            4.10:1         11.90:1     3    (solo texto grande / degradado)
    ────────────────────────────────────────────────────────────────────────── */
