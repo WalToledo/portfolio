@@ -7,9 +7,17 @@ import Footer from '../components/Footer.astro';
 
 interface Props {
   title?: string;
+  description?: string;
 }
 
-const { title = 'Walter Toledo' } = Astro.props;
+// La description sigue el mismo patrón que el title: un default acá y cada
+// página puede pisarlo. El texto sale de los datos ya confirmados en SPECS 3.1
+// (rol, título y frase de presentación), no es contenido nuevo.
+const {
+  title = 'Walter Toledo',
+  description =
+    'Walter Toledo, Desarrollador de Software Fullstack y Analista en Sistemas Informáticos. Construyo productos web de punta a punta, del diseño al deploy.',
+} = Astro.props;
 ---
 
 <html lang="es" class="motion-safe:scroll-smooth">
@@ -33,6 +41,7 @@ const { title = 'Walter Toledo' } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <meta name="description" content={description} />
     <noscript>
       <style>
         /* Sin JS no hay quién agregue .is-revealed: mostramos todo directamente

@@ -89,6 +89,8 @@ const heroLinks = [
         <a href="#contacto" class="btn btn-secondary focus-ring">Contactarme</a>
       </div>
 
+      <!-- py-1.5 agranda el blanco de toque: el texto solo daba 20px de alto y el
+           mínimo de WCAG 2.2 (2.5.8) son 24px. No cambia nada visualmente. -->
       <ul data-reveal-load style="--reveal-delay: 410ms" class="flex items-center gap-5">
         {heroLinks.map((link) => (
           <li>
@@ -96,7 +98,7 @@ const heroLinks = [
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              class="focus-ring inline-flex items-center gap-2 rounded-chip text-sm text-muted transition-colors hover:text-accent-text"
+              class="focus-ring inline-flex items-center gap-2 rounded-chip py-1.5 text-sm text-muted transition-colors hover:text-accent-text"
             >
               <SocialIcon name={link.name} class="h-4 w-4" />
               {link.label}
