@@ -1,5 +1,7 @@
 ---
 import { skills, languages } from '../data/skills.ts';
+import SectionHeading from './SectionHeading.astro';
+import SkillIcon from './SkillIcon.astro';
 
 const bioParagraphs = [
   'Soy Walter Toledo, desarrollador fullstack de Rosario, Argentina. Trabajo con React, Node.js y TypeScript, cubriendo todo el ciclo de un proyecto: modelado de datos, backend, interfaz y deploy. Además, incorporo agentes de IA en mi flujo de desarrollo para trabajar más rápido sin perder calidad.',
@@ -7,29 +9,67 @@ const bioParagraphs = [
 ];
 ---
 
-<section id="sobre-mi" data-reveal class="scroll-mt-20 mx-auto max-w-5xl px-4 py-16">
-  <h2 class="font-display text-3xl font-bold">Sobre mí</h2>
+<!-- Mismo patrón que el Hero: min-h-[calc(100svh-4rem)] + items-center. Al
+     llegar desde el navbar (scroll-mt-16) la sección cubre la pantalla entera y
+     el contenido queda centrado, en vez de empezar pegado arriba con el resto
+     cortado abajo. Es un PISO, no un techo: en pantallas bajas la sección se
+     estira en lugar de recortar las tarjetas. -->
+<section id="sobre-mi" class="flex min-h-[calc(100svh-4rem)] scroll-mt-16 items-center bg-band section-tint">
+  <!-- El padding se achica recién en lg, que es donde entra el layout de una
+       pantalla: con items-center el aire lo pone el centrado, así que un padding
+       chico solo cambia las cosas en pantallas BAJAS, donde es lo que evita que
+       las tarjetas queden cortadas. Abajo de lg la sección scrollea igual que
+       antes y conserva el mismo ritmo vertical que el resto. -->
+  <div class="mx-auto w-full max-w-5xl px-4 py-20 sm:py-24 lg:py-10">
+    <div data-reveal>
+      <SectionHeading eyebrow="Perfil" title="Sobre mí" />
+    </div>
 
-  <div class="mt-4 max-w-prose space-y-4 text-muted">
-    {bioParagraphs.map((paragraph) => (
-      <p>{paragraph}</p>
-    ))}
-  </div>
+    <!-- Los dos párrafos van lado a lado desde lg: apilados ocupaban el doble de
+         alto y empujaban las tarjetas fuera de la pantalla. Cada columna queda
+         en ~60 caracteres, dentro de la medida de lectura cómoda; abajo de lg
+         vuelven a apilarse con max-w-prose. -->
+    <div
+      data-reveal
+      style="--reveal-delay: 80ms"
+      class="mt-6 grid max-w-prose gap-5 text-lg leading-relaxed text-muted lg:max-w-none lg:grid-cols-2 lg:gap-x-12"
+    >
+      {bioParagraphs.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+    </div>
 
-  <div class="mt-10 grid gap-8 sm:grid-cols-3">
-    {skills.map(({ category, items }) => (
-      <div>
-        <h3 class="font-display text-xl font-medium">{category}</h3>
-        <ul class="mt-3 flex flex-wrap gap-2">
-          {items.map((item) => (
-            <li class="rounded-md border border-border bg-surface px-3 py-1 font-mono text-sm">{item}</li>
-          ))}
-        </ul>
+    <!-- El rótulo del grupo es un h3 real (cuelga del h2 "Sobre mí"), así que
+         los títulos de las tarjetas bajan a h4 para no saltearse un nivel. -->
+    <div data-reveal style="--reveal-delay: 160ms" class="mt-8">
+      <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+        <h3 class="font-mono text-xs font-medium tracking-[0.18em] text-muted uppercase">
+          Tecnologías y herramientas
+        </h3>
+
+        <!-- Idiomas comparte la fila del rótulo en vez de ocupar un bloque
+             propio abajo: son dos datos y así no se come una franja de alto que
+             deje las tarjetas fuera de la pantalla. -->
+        <p class="font-mono text-xs font-medium tracking-[0.18em] text-muted uppercase">
+          Idiomas: <span class="text-ink">{languages.join(' · ')}</span>
+        </p>
       </div>
-    ))}
-  </div>
 
-  <p class="mt-8 text-sm text-muted">
-    Idiomas: {languages.join(', ')}
-  </p>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {skills.map(({ category, icon, items }) => (
+          <div class="card p-5">
+            <h4 class="flex items-center gap-2 font-display text-base font-medium text-ink">
+              <SkillIcon name={icon} class="h-5 w-5 shrink-0 text-accent" />
+              {category}
+            </h4>
+            <ul class="mt-4 flex flex-wrap gap-2">
+              {items.map((item) => (
+                <li class="chip">{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
 </section>

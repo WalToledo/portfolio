@@ -1,46 +1,153 @@
 ---
 import { Image } from 'astro:assets';
 import avatar from '../assets/avatar.jpeg';
+import SocialIcon from './SocialIcon.astro';
 
 const name = 'Walter Toledo';
-const role = 'Desarrollador de Software Fullstack';
-const title = 'Analista en Sistemas Informáticos';
-const tagline = 'Construyo productos web de punta a punta, del diseño al deploy.';
+const firstName = 'Walter';
+const lastName = 'Toledo';
+// "Analista en Sistemas Informáticos" pasa a ser el rótulo de arriba (eyebrow):
+// es la credencial, y así el Hero arranca con el mismo ancla de acento que las
+// otras 4 secciones (ver SectionHeading).
+const eyebrow = 'Analista en Sistemas Informáticos';
+const roleLead = 'Desarrollador de Software';
+const roleAccent = 'Fullstack';
+const taglineLead = 'Construyo productos web de punta a punta,';
+const taglineAccent = 'del diseño al deploy.';
+
+const heroLinks = [
+  { name: 'github' as const, label: 'GitHub', href: 'https://github.com/WalToledo' },
+  { name: 'linkedin' as const, label: 'LinkedIn', href: 'https://www.linkedin.com/in/walter-ariel-toledo' },
+];
 ---
 
+<!-- min-h-[calc(100svh-4rem)]: el hero ocupa la primera pantalla menos la altura
+     del navbar sticky (h-16). Es un piso, no un techo: si el contenido crece (texto
+     grande, pantalla baja) la sección se estira en vez de recortarlo. "svh" usa la
+     altura chica del viewport, así en mobile no salta cuando se oculta la barra del navegador. -->
 <section
   id="inicio"
-  class="scroll-mt-20 mx-auto grid min-h-[70vh] max-w-5xl items-center gap-10 px-4 py-16 text-center md:grid-cols-[1.2fr_0.8fr] md:text-left"
+  class="relative isolate flex min-h-[calc(100svh-4rem)] scroll-mt-16 items-center overflow-hidden bg-canvas"
 >
-  <div class="order-2 flex flex-col items-center gap-4 md:order-1 md:items-start">
-    <h1 data-reveal-load style="--reveal-delay: 90ms" class="font-display text-4xl font-bold tracking-tight md:text-6xl">{name}</h1>
-    <p data-reveal-load style="--reveal-delay: 160ms" class="text-xl font-medium text-muted">{role}</p>
-    <p data-reveal-load style="--reveal-delay: 220ms" class="text-muted">{title}</p>
-    <p data-reveal-load style="--reveal-delay: 280ms" class="max-w-md text-muted">{tagline}</p>
+  <!-- Fondo decorativo: dos glows en distinto tono, nada más. La profundidad
+       sale de la luz, no de una trama encima. aria-hidden + pointer-events-none:
+       es puramente decorativo, no debe recibir foco ni clicks ni anunciarse. -->
+  <div aria-hidden="true" class="hero-glow pointer-events-none absolute inset-0 -z-10"></div>
+  <div aria-hidden="true" class="hero-glow-alt pointer-events-none absolute inset-0 -z-10"></div>
 
-    <div data-reveal-load style="--reveal-delay: 340ms" class="mt-4 flex w-full flex-col gap-4 sm:w-auto sm:flex-row sm:flex-wrap">
-      <a
-        href="#proyectos"
-        class="rounded-md bg-ink px-6 py-3 text-center font-medium text-canvas hover:bg-accent-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+  <div
+    class="mx-auto grid w-full max-w-5xl items-center gap-10 px-4 py-10 text-center sm:gap-12 sm:py-16 md:grid-cols-[minmax(0,1fr)_auto] md:text-left"
+  >
+    <div class="order-2 flex flex-col items-center gap-5 md:order-1 md:items-start">
+      <div class="flex flex-col gap-3 sm:gap-4">
+        <!-- Mismo tratamiento que el eyebrow de SectionHeading (ver ese
+             componente): así el Hero arranca con el mismo ancla de acento que
+             las otras 4 secciones. El filete se oculta en mobile porque ahí el
+             bloque está centrado y el filete lo descentraría. -->
+        <p
+          data-reveal-load
+          style="--reveal-delay: 60ms"
+          class="flex items-center justify-center gap-3 font-mono text-xs font-medium tracking-[0.18em] text-accent-text uppercase md:justify-start"
+        >
+          <span aria-hidden="true" class="rule-accent hidden md:block"></span>
+          <span>{eyebrow}</span>
+        </p>
+
+        <h1
+          data-reveal-load
+          style="--reveal-delay: 120ms"
+          class="font-display text-5xl font-bold tracking-tight text-balance sm:text-6xl lg:text-7xl"
+        >
+          <!-- El degradado va solo en el apellido: pintar los dos nombres lo
+               volvería un titular degradado genérico y se pierde el contraste
+               entre lo neutro (nombre) y el acento (apellido). -->
+          <span class="text-ink">{firstName}</span>{' '}
+          <span class="text-gradient">{lastName}</span>
+        </h1>
+
+        <!-- Jerarquía: el rol es lo segundo que se lee, así que va en "ink". -->
+        <p data-reveal-load style="--reveal-delay: 190ms" class="font-display text-xl font-medium text-ink sm:text-2xl">
+          {roleLead}{' '}<span class="text-accent-text">{roleAccent}</span>
+        </p>
+        <p data-reveal-load style="--reveal-delay: 290ms" class="max-w-md text-lg leading-relaxed text-muted text-pretty">
+          <!-- inline-block: la frase subrayada es una unidad atómica, así el
+               renglón corta ANTES de ella y el subrayado de acento nunca queda
+               partido entre dos líneas. -->
+          {taglineLead}{' '}<span
+            class="inline-block font-medium text-ink underline decoration-accent/50 decoration-2 underline-offset-4"
+            >{taglineAccent}</span
+          >
+        </p>
+      </div>
+
+      <div
+        data-reveal-load
+        style="--reveal-delay: 350ms"
+        class="mt-1 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center"
       >
-        Ver proyectos
-      </a>
-      <a
-        href="#contacto"
-        class="rounded-md border border-ink px-6 py-3 text-center font-medium hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+        <a href="#proyectos" class="btn btn-primary focus-ring">Ver proyectos</a>
+        <a href="/cv-walter-toledo.pdf" download type="application/pdf" class="btn btn-secondary focus-ring inline-flex items-center gap-2">
+          <SocialIcon name="download" class="h-4 w-4" />
+          Descargar CV
+        </a>
+      </div>
+
+      <!-- py-1.5 agranda el blanco de toque: el texto solo daba 20px de alto y el
+           mínimo de WCAG 2.2 (2.5.8) son 24px. No cambia nada visualmente. -->
+      <!-- flex-wrap: con los 3 items la fila mide 303px y en 360px hay 328
+           disponibles. Entra, pero con 25px de margen: mientras font-display:swap
+           muestra la fuente de sistema los anchos crecen y los labels se
+           cortarían. Que envuelva es más barato que ajustar tamaños. -->
+      <ul
+        data-reveal-load
+        style="--reveal-delay: 410ms"
+        class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 md:justify-start"
       >
-        Contactarme
-      </a>
+        {heroLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="focus-ring inline-flex items-center gap-2 rounded-chip py-1.5 text-sm text-muted transition-colors hover:text-accent-text"
+            >
+              <SocialIcon name={link.name} class="h-4 w-4" />
+              {link.label}
+            </a>
+          </li>
+        ))}
+        <!-- Contactarme va en esta fila y no como tercer botón: el par "Ver
+             proyectos" / "Descargar CV" ya tiene jerarquía de CTA y un tercero
+             la aplana (en mobile el contenedor es flex-col: serían 3 botones
+             full-width). Tampoco entra en heroLinks porque no es un link
+             externo sino un ancla interna a la sección de contacto. -->
+        <li>
+          <a
+            href="#contacto"
+            class="focus-ring inline-flex items-center gap-2 rounded-chip py-1.5 text-sm text-muted transition-colors hover:text-accent-text"
+          >
+            <SocialIcon name="email" class="h-4 w-4" />
+            Contactarme
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- La foto escala con el viewport: clamp(mínimo, fluido, máximo). Nunca baja de
+         152px en pantallas chicas ni pasa de 288px en desktop, así el hero entra en una
+         pantalla sin dejar la foto diminuta. width/height van al doble del máximo (576px)
+         para que astro:assets genere la versión retina y el CSS la baje. -->
+    <div data-reveal-load style="--reveal-delay: 0ms" class="order-1 justify-self-center md:order-2 md:justify-self-end">
+      <div class="avatar-ring">
+        <Image
+          src={avatar}
+          alt={`Foto de perfil de ${name}`}
+          width={576}
+          height={576}
+          loading="eager"
+          class="block size-[clamp(9.5rem,30vw,18rem)] rounded-full object-cover"
+        />
+      </div>
     </div>
   </div>
-
-  <Image
-    src={avatar}
-    alt={`Foto de perfil de ${name}`}
-    width={160}
-    height={160}
-    data-reveal-load
-    style="--reveal-delay: 0ms"
-    class="order-1 h-40 w-40 justify-self-center rounded-full object-cover md:order-2 md:justify-self-end"
-  />
 </section>

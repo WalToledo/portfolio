@@ -1,9 +1,11 @@
 ---
-// Mismos links y SVGs que Footer.astro, para que contacto se vea consistente en toda la página.
+import SectionHeading from './SectionHeading.astro';
+import SocialIcon from './SocialIcon.astro';
+
 const contactLinks = [
-  { label: 'Email', href: 'mailto:toledowalter836@gmail.com', external: false },
-  { label: 'GitHub', href: 'https://github.com/WalToledo', external: true },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/walter-ariel-toledo', external: true },
+  { icon: 'email' as const, label: 'Email', value: 'toledowalter836@gmail.com', href: 'mailto:toledowalter836@gmail.com', external: false },
+  { icon: 'github' as const, label: 'GitHub', value: 'WalToledo', href: 'https://github.com/WalToledo', external: true },
+  { icon: 'linkedin' as const, label: 'LinkedIn', value: 'walter-ariel-toledo', href: 'https://www.linkedin.com/in/walter-ariel-toledo', external: true },
 ];
 
 // Access Key pública de Web3Forms: el sitio es estático (sin backend), así que el
@@ -12,94 +14,113 @@ const contactLinks = [
 const WEB3FORMS_ACCESS_KEY = '9e169e33-9cb8-4ecc-83a0-b5c3d2ff8416';
 ---
 
-<section id="contacto" data-reveal class="scroll-mt-20 mx-auto max-w-5xl px-4 py-16">
-  <h2 class="font-display text-3xl font-bold">Contacto</h2>
-  <p class="mt-2 text-muted">
-    ¿Querés contactarme? Escribime por acá o mandame un mensaje con el formulario.
-  </p>
+<section id="contacto" class="scroll-mt-16 bg-canvas">
+  <div class="mx-auto max-w-5xl px-4 py-20 sm:py-24">
+    <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+      <div data-reveal>
+        <SectionHeading eyebrow="Hablemos" title="Tu mensaje" />
 
-  <ul class="mt-6 flex flex-wrap gap-6">
-    {contactLinks.map((link) => (
-      <li>
-        <a
-          href={link.href}
-          target={link.external ? '_blank' : undefined}
-          rel={link.external ? 'noopener noreferrer' : undefined}
-          class="inline-flex items-center gap-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-        >
-          {link.label === 'Email' && (
-            <svg class="h-5 w-5" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="5" width="18" height="14" rx="2" />
-              <path d="m3 7 9 6 9-6" />
-            </svg>
-          )}
-          {link.label === 'GitHub' && (
-            <svg class="h-5 w-5" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C6.48 2 2 6.58 2 12.17c0 4.47 2.87 8.26 6.84 9.6.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.72-2.78.62-3.37-1.37-3.37-1.37-.46-1.19-1.11-1.51-1.11-1.51-.91-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.17C22 6.58 17.52 2 12 2Z" />
-            </svg>
-          )}
-          {link.label === 'LinkedIn' && (
-            <svg class="h-5 w-5" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.6v1.64h.05c.5-.95 1.73-1.95 3.56-1.95 3.81 0 4.5 2.51 4.5 5.77V21h-4v-5.5c0-1.31-.02-3-1.83-3-1.83 0-2.11 1.43-2.11 2.9V21h-4V9Z" />
-            </svg>
-          )}
-          <span class="sr-only md:not-sr-only">{link.label}</span>
-        </a>
-      </li>
-    ))}
-  </ul>
+        <p class="mt-6 max-w-prose text-lg leading-relaxed text-muted">
+          ¿Querés contactarme? Escribime por acá o mandame un mensaje con el formulario.
+        </p>
 
-  <form id="contact-form" novalidate data-access-key={WEB3FORMS_ACCESS_KEY} class="mt-8 flex max-w-xl flex-col gap-4">
-    <div class="flex flex-col gap-1">
-      <label for="name" class="text-sm font-medium">Nombre</label>
-      <input
-        id="name"
-        name="name"
-        type="text"
-        required
-        minlength="2"
-        aria-describedby="name-error"
-        class="w-full rounded-md border border-border bg-surface px-3 py-2 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-      />
-      <p id="name-error" aria-live="polite" class="text-sm text-red-600 dark:text-red-400"></p>
+        <!-- Cada vía de contacto es una card con el mismo lenguaje que Proyectos
+             y Sobre mí (borde + superficie + acento en hover), en vez de filas
+             sueltas: la columna izquierda deja de verse como una lista plana. -->
+        <ul class="mt-8 flex flex-col gap-3">
+          {contactLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
+                class="focus-ring card card-interactive group flex items-center gap-3 p-3"
+              >
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-control border border-border bg-band text-muted transition-colors group-hover:border-accent group-hover:bg-accent-subtle group-hover:text-accent-text">
+                  <SocialIcon name={link.icon} class="h-4 w-4" />
+                </span>
+                <span class="min-w-0">
+                  <span class="block font-mono text-[0.6875rem] font-medium tracking-[0.18em] text-muted uppercase">
+                    {link.label}
+                  </span>
+                  <span class="block truncate text-ink">{link.value}</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <form
+        id="contact-form"
+        novalidate
+        data-access-key={WEB3FORMS_ACCESS_KEY}
+        data-reveal
+        style="--reveal-delay: 100ms"
+        class="card flex flex-col gap-4 p-6 sm:p-8"
+      >
+        <div class="flex flex-col gap-1.5">
+          <label for="name" class="text-sm font-medium text-ink">Nombre</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            minlength="2"
+            placeholder="Tu nombre"
+            aria-describedby="name-error"
+            class="field focus-ring"
+          />
+          <!-- min-h reserva el renglón del error: que aparezca no empuja el layout. -->
+          <p id="name-error" aria-live="polite" class="min-h-5 text-sm text-danger-text"></p>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="email" class="text-sm font-medium text-ink">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            placeholder="nombre@ejemplo.com"
+            aria-describedby="email-error"
+            class="field focus-ring"
+          />
+          <p id="email-error" aria-live="polite" class="min-h-5 text-sm text-danger-text"></p>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="message" class="text-sm font-medium text-ink">Mensaje</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            required
+            minlength="10"
+            maxlength="2000"
+            placeholder="¿Sobre qué te gustaría conversar?"
+            aria-describedby="message-hint message-error"
+            class="field focus-ring resize-y"
+          ></textarea>
+          <!-- El límite se dice ANTES de escribir (no solo al fallar la
+               validación) y el contador lo confirma mientras se tipea. -->
+          <p id="message-hint" class="flex items-center justify-between gap-3 text-xs text-muted">
+            <span>Entre 10 y 2000 caracteres</span>
+            <span id="message-count" class="font-mono tabular-nums">0 / 2000</span>
+          </p>
+          <p id="message-error" aria-live="polite" class="min-h-5 text-sm text-danger-text"></p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4">
+          <button type="submit" class="btn btn-primary focus-ring disabled:opacity-60">
+            Enviar mensaje
+            <SocialIcon name="arrow-right" class="h-4 w-4 shrink-0" />
+          </button>
+          <p id="form-status" role="status" aria-live="polite" class="text-sm text-muted"></p>
+        </div>
+      </form>
     </div>
-
-    <div class="flex flex-col gap-1">
-      <label for="email" class="text-sm font-medium">Email</label>
-      <input
-        id="email"
-        name="email"
-        type="email"
-        required
-        aria-describedby="email-error"
-        class="w-full rounded-md border border-border bg-surface px-3 py-2 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-      />
-      <p id="email-error" aria-live="polite" class="text-sm text-red-600 dark:text-red-400"></p>
-    </div>
-
-    <div class="flex flex-col gap-1">
-      <label for="message" class="text-sm font-medium">Mensaje</label>
-      <textarea
-        id="message"
-        name="message"
-        rows="5"
-        required
-        minlength="10"
-        aria-describedby="message-error"
-        class="w-full rounded-md border border-border bg-surface px-3 py-2 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-      ></textarea>
-      <p id="message-error" aria-live="polite" class="text-sm text-red-600 dark:text-red-400"></p>
-    </div>
-
-    <button
-      type="submit"
-      class="self-start rounded-md bg-ink px-5 py-2 font-medium text-canvas hover:bg-accent-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 disabled:opacity-60"
-    >
-      Enviar mensaje
-    </button>
-
-    <p id="form-status" role="status" aria-live="polite" class="text-sm"></p>
-  </form>
+  </div>
 </section>
 
 <script>
@@ -108,6 +129,16 @@ const WEB3FORMS_ACCESS_KEY = '9e169e33-9cb8-4ecc-83a0-b5c3d2ff8416';
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const statusEl = document.getElementById('form-status');
   const submitButton = form?.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+
+  // Los estados del envío se distinguen por color, no solo por el texto.
+  const setStatus = (message: string, tone: 'info' | 'success' | 'error') => {
+    if (!statusEl) return;
+    statusEl.textContent = message;
+    statusEl.classList.remove('text-muted', 'text-accent-text', 'text-danger-text');
+    statusEl.classList.add(
+      tone === 'success' ? 'text-accent-text' : tone === 'error' ? 'text-danger-text' : 'text-muted'
+    );
+  };
 
   const errorMessages: Record<string, (input: HTMLInputElement | HTMLTextAreaElement) => string> = {
     name: (input) => {
@@ -123,6 +154,7 @@ const WEB3FORMS_ACCESS_KEY = '9e169e33-9cb8-4ecc-83a0-b5c3d2ff8416';
     message: (input) => {
       if (input.validity.valueMissing) return 'Escribí un mensaje.';
       if (input.validity.tooShort) return 'Contame un poco más (mínimo 10 caracteres).';
+      if (input.validity.tooLong) return 'El mensaje no puede superar los 2000 caracteres.';
       return '';
     },
   };
@@ -135,6 +167,18 @@ const WEB3FORMS_ACCESS_KEY = '9e169e33-9cb8-4ecc-83a0-b5c3d2ff8416';
     return message === '';
   };
 
+  // Contador del textarea. maxlength ya frena el tipeo, pero el contador avisa
+  // cuánto queda y se pone en rojo al tocar el techo.
+  const messageInput = document.getElementById('message') as HTMLTextAreaElement | null;
+  const messageCount = document.getElementById('message-count');
+
+  messageInput?.addEventListener('input', () => {
+    if (!messageCount) return;
+    const length = messageInput.value.length;
+    messageCount.textContent = `${length} / 2000`;
+    messageCount.classList.toggle('text-danger-text', length >= 2000);
+  });
+
   form?.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!form || !statusEl || !submitButton) return;
@@ -144,7 +188,7 @@ const WEB3FORMS_ACCESS_KEY = '9e169e33-9cb8-4ecc-83a0-b5c3d2ff8416';
     const firstInvalid = fields[validations.findIndex((valid) => !valid)];
 
     if (firstInvalid) {
-      statusEl.textContent = '';
+      setStatus('', 'info');
       firstInvalid.focus();
       return;
     }
@@ -153,7 +197,7 @@ const WEB3FORMS_ACCESS_KEY = '9e169e33-9cb8-4ecc-83a0-b5c3d2ff8416';
     data.append('access_key', form.dataset.accessKey ?? '');
 
     submitButton.disabled = true;
-    statusEl.textContent = 'Enviando…';
+    setStatus('Enviando…', 'info');
 
     try {
       const response = await fetch('https://api.web3forms.com/submit', {
@@ -164,14 +208,21 @@ const WEB3FORMS_ACCESS_KEY = '9e169e33-9cb8-4ecc-83a0-b5c3d2ff8416';
       const result = await response.json();
 
       if (result.success) {
-        statusEl.textContent = '¡Mensaje enviado! Te voy a responder pronto.';
+        setStatus('¡Mensaje enviado! Te voy a responder pronto.', 'success');
         form.reset();
+        // reset() no dispara "input", así que el contador hay que volverlo a 0 a mano.
+        if (messageCount) {
+          messageCount.textContent = '0 / 2000';
+          messageCount.classList.remove('text-danger-text');
+        }
       } else {
         throw new Error(result.message ?? 'Error desconocido');
       }
     } catch {
-      statusEl.textContent =
-        'No se pudo enviar el mensaje. Probá de nuevo o escribime directamente a toledowalter836@gmail.com.';
+      setStatus(
+        'No se pudo enviar el mensaje. Probá de nuevo o escribime directamente a toledowalter836@gmail.com.',
+        'error'
+      );
     } finally {
       submitButton.disabled = false;
     }

@@ -1,20 +1,61 @@
 ---
 import { experience } from '../data/experience.ts';
+import SectionHeading from './SectionHeading.astro';
+
+// Un timeline (riel + puntos) solo tiene sentido si hay algo que CONECTAR. Con
+// una sola entrada no se dibuja ninguno de los dos: antes el riel ya se omitía
+// pero el punto quedaba igual, y un punto sin línea se lee como el resto de un
+// timeline que no está. Con una sola entrada es, simplemente, una tarjeta.
+const showTimeline = experience.length > 1;
 ---
 
-<section id="experiencia" data-reveal class="scroll-mt-20 mx-auto max-w-5xl px-4 py-16">
-  <h2 class="font-display text-3xl font-bold">Experiencia laboral</h2>
+<!-- Mismo patrón que Hero y Sobre mí: min-h-[calc(100svh-4rem)] + items-center.
+     Al llegar desde el navbar (scroll-mt-16) la sección cubre la pantalla
+     entera en vez de quedar corta arriba. Es un PISO, no un techo: con poca
+     experiencia la sección se estira para llenar la pantalla en vez de
+     recortar nada. -->
+<section id="experiencia" class="flex min-h-[calc(100svh-4rem)] scroll-mt-16 items-center bg-canvas">
+  <div class="mx-auto w-full max-w-5xl px-4 py-20 sm:py-24">
+    <div data-reveal>
+      <SectionHeading eyebrow="Trayectoria" title="Experiencia laboral" />
+    </div>
 
-  <!-- Timeline: la línea conectora (border-l) solo se dibuja entre entradas (not-last),
-       así que con una única entrada se ve completa igual, sin cola colgando. -->
-  <div class="mt-8 space-y-6">
-    {experience.map(({ role, company, period }) => (
-      <article class="relative pl-6 not-last:border-l-2 not-last:border-border">
-        <span aria-hidden="true" class="absolute left-0 top-1.5 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-accent"></span>
-        <h3 class="font-display text-xl font-medium">{role}</h3>
-        <p class="mt-1 text-muted">{company}</p>
-        <p class="mt-1 font-mono text-sm text-muted">{period}</p>
-      </article>
-    ))}
+    <!-- max-w-3xl: a 1024px una entrada sola deja la tarjeta casi vacía y manda
+         el período al extremo opuesto del puesto, obligando a cruzar toda la
+         pantalla para relacionarlos. Acotada, la tarjeta queda proporcionada y
+         el par puesto/período se lee de un vistazo. -->
+    <div data-reveal style="--reveal-delay: 80ms" class="relative mt-10 max-w-3xl">
+      {showTimeline && (
+        <span aria-hidden="true" class="absolute top-3 bottom-3 left-[3.5px] w-px bg-border"></span>
+      )}
+
+      <ol class="space-y-5">
+        {experience.map(({ role, company, period, description }) => (
+          <li class:list={['relative', showTimeline && 'pl-7']}>
+            {showTimeline && (
+              <span
+                aria-hidden="true"
+                class="absolute top-6 left-0 h-2 w-2 rounded-full bg-accent ring-4 ring-canvas"
+              ></span>
+            )}
+
+            <article class="card p-6">
+              <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <h3 class="font-display text-lg font-medium text-ink">{role}</h3>
+                  <p class="mt-1 text-muted">{company}</p>
+                </div>
+                <p class="chip chip-accent shrink-0 self-start">{period}</p>
+              </div>
+
+              {/* Fuera del flex del encabezado: así la descripción ocupa el
+                  ancho completo de la tarjeta en vez de competir con el chip
+                  del período por el espacio de la fila. */}
+              {description && <p class="mt-4 text-pretty leading-relaxed text-muted">{description}</p>}
+            </article>
+          </li>
+        ))}
+      </ol>
+    </div>
   </div>
 </section>

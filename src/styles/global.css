@@ -6,7 +6,8 @@
 
 /* Space Grotesk solo en dos pesos (500/700), auto-hosteada en public/fonts/ para no
    depender de Google Fonts en runtime. font-display: swap evita texto invisible
-   mientras carga: se ve con la fuente de sistema y "salta" a Space Grotesk apenas está. */
+   mientras carga: se ve con la fuente de sistema y "salta" a Space Grotesk apenas está.
+   OJO: solo existen estos dos pesos. Nada de font-semibold (600) con font-display. */
 @font-face {
   font-family: "Space Grotesk";
   font-style: normal;
@@ -23,50 +24,478 @@
   src: url("/fonts/space-grotesk-700.woff2") format("woff2");
 }
 
-/* Tokens de color (light/dark) + fuente display. Generan utilidades Tailwind v4
-   (bg-canvas, text-ink, border-border, font-display, etc.) que resuelven a estas
-   variables: overridearlas bajo .dark alcanza para cambiar todo el sitio de tema
-   sin repetir "dark:" en cada componente. */
+/* ──────────────────────────────────────────────────────────────────────────
+   Tokens de diseño
+   ──────────────────────────────────────────────────────────────────────────
+   Generan utilidades Tailwind v4 (bg-canvas, text-ink, border-border,
+   rounded-card, font-display…) que resuelven a estas variables: pisarlas bajo
+   .dark alcanza para cambiar todo el sitio de tema sin repetir "dark:" en cada
+   componente.
+
+   Roles de color (importa la distinción, no el tono):
+   - canvas  → fondo base de la página
+   - band    → fondo de las secciones alternadas (Experiencia, Contacto)
+   - surface → card elevada, separada por hairline + sombra
+   - chip    → fondo de los chips, un escalón respecto de surface en ambos temas
+   - border        → HAIRLINE decorativo (cards, chips, divisores)
+   - border-strong → límite de CONTROL (inputs, botón secundario)
+
+   Los dos tokens de borde existen porque WCAG 1.4.11 (3:1 no textual) aplica a
+   límites de componentes de UI accionables, no a bordes decorativos. Un único
+   token obligaba a usar un gris medio (#898d94) en todo y encajonaba la página.
+   Todos los pares de abajo se midieron: ver la tabla de contraste al final.
+   ────────────────────────────────────────────────────────────────────────── */
 @theme {
-  --color-canvas: #f7f8fb;
+  --color-canvas: #ffffff;
+  --color-band: #f4f6fb;
   --color-surface: #ffffff;
-  --color-ink: #111827;
-  --color-muted: #5b6472;
-  /* #e3e7ee original quedaba ~1.2:1 contra canvas/surface (invisible como borde de
-     input/card). Este tono pasa 3:1 contra ambos, el mínimo WCAG 1.4.11 para límites
-     de componentes UI. */
-  --color-border: #898d94;
-  --color-accent: #4f6bff;
-  /* Variante de accent solo para texto (links): #4F6BFF sobre canvas/surface claros
-     no llega a 4.5:1 para texto normal (sale ~4.05:1), así que el texto usa este tono
-     más oscuro. El accent original se mantiene para focus-ring/fills, que solo
-     necesitan 3:1 por ser uso no-textual. */
-  --color-accent-text: #3a50e0;
+  --color-chip: #f4f6fb;
+  --color-ink: #0b0f1a;
+  --color-muted: #525a6b;
+  --color-border: #e4e8f0;
+  --color-border-strong: #7e8698;
+  /* accent = rellenos y focus ring (uso no textual, mínimo 3:1).
+     accent-text = links y texto, que necesitan 4.5:1 y por eso van más oscuros. */
+  --color-accent: #2563eb;
+  --color-accent-text: #1d4ed8;
+  --color-accent-subtle: #eef2ff;
+  /* Hermano más callado de accent-subtle, para el chip de período: el azul
+     vive en el borde y el texto, el relleno solo insinúa. Medido sobre
+     surface (el fondo de la .card que lo contiene). */
+  --color-chip-accent: #f4f8ff;
+  --color-accent-contrast: #ffffff;
+  --color-danger-text: #b42318;
+  /* Segundo tono del acento, solo para degradados (texto del Hero, aro del
+     avatar, glow secundario). Elegido para que el extremo del degradado siga
+     cumpliendo 3:1 en texto grande: #0284c7 da 4.1:1 sobre canvas claro. */
+  --color-accent-alt: #0284c7;
+
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  /* Radios jerárquicos: la card es el contenedor más grande, el chip el más chico. */
+  --radius-card: 0.875rem;
+  --radius-control: 0.625rem;
+  --radius-chip: 0.5rem;
 }
 
 .dark {
-  --color-canvas: #0b1220;
-  --color-surface: #111a2e;
-  --color-ink: #e5e9f2;
-  --color-muted: #93a0b4;
-  --color-border: #5e6880;
-  --color-accent: #7c90ff;
-  /* En dark, el accent base ya da ~6.5:1 sobre canvas como texto: no hace falta
-     un tono separado para links. */
-  --color-accent-text: #7c90ff;
+  --color-canvas: #0a0a0b;
+  --color-band: #101013;
+  --color-surface: #16161a;
+  --color-chip: #1f1f25;
+  --color-ink: #f4f4f5;
+  --color-muted: #a1a1aa;
+  --color-border: #26262b;
+  /* #4b4b55 daba 2.1:1 contra surface: no llegaba al 3:1 de WCAG 1.4.11. */
+  --color-border-strong: #6b6b78;
+  --color-accent: #5b8cff;
+  /* En dark el accent-text va más CLARO que el accent (al revés que en light),
+     porque acá el contraste se gana aclarando. */
+  --color-accent-text: #8ab0ff;
+  --color-accent-subtle: #121a2e;
+  --color-chip-accent: #191b23;
+  --color-accent-contrast: #0a0a0b;
+  --color-danger-text: #ff9a92;
+  /* En dark el segundo tono va claro, igual que accent-text. */
+  --color-accent-alt: #38bdf8;
 }
 
-/* Animaciones de entrada: solo existen bajo "no-preference", así que con
-   prefers-reduced-motion activado el contenido queda visible de entrada,
-   sin depender de JS para revertir nada. */
+/* Sombras y glow: van como custom properties comunes, NO dentro de @theme.
+   Tailwind v4 compila las sombras de @theme con el valor literal inline, así que
+   un override bajo .dark no las cambiaría. Declaradas acá y consumidas con
+   shadow-(--shadow-card) (azúcar de shadow-[var(--shadow-card)]) sí resuelven en
+   runtime y cambian con el tema. No mover esto a @theme. */
+:root {
+  --shadow-card: 0 1px 2px rgb(11 15 26 / 0.04), 0 4px 12px rgb(11 15 26 / 0.05);
+  --shadow-card-hover: 0 2px 4px rgb(11 15 26 / 0.06), 0 12px 24px rgb(11 15 26 / 0.09);
+  --shadow-nav: 0 1px 3px rgb(11 15 26 / 0.06);
+  --shadow-btn: 0 1px 2px rgb(11 15 26 / 0.08);
+  /* La sombra del CTA primario va TINTADA con el acento en vez de gris: es lo
+     que hace que el botón se lea como el elemento más prominente de su bloque
+     sin tener que agrandarlo ni meter un degradado. */
+  --shadow-btn-accent: 0 1px 2px rgb(11 15 26 / 0.10),
+    0 4px 10px color-mix(in oklab, var(--color-accent) 16%, transparent);
+  --shadow-btn-accent-hover: 0 2px 4px rgb(11 15 26 / 0.12),
+    0 6px 16px color-mix(in oklab, var(--color-accent) 22%, transparent);
+  --glow-strength: 16%;
+  /* Degradado del acento. Va acá y no en @theme por el mismo motivo que las
+     sombras: tiene que resolverse en runtime para seguir al tema. Como usa
+     var(), con pisar --color-accent-alt bajo .dark ya cambia solo: no hace
+     falta repetirlo en el bloque .dark. */
+  --gradient-accent: linear-gradient(
+    100deg,
+    var(--color-accent-text) 0%,
+    var(--color-accent) 45%,
+    var(--color-accent-alt) 100%
+  );
+}
+
+.dark {
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.5), 0 4px 14px rgb(0 0 0 / 0.4);
+  --shadow-card-hover: 0 2px 6px rgb(0 0 0 / 0.55), 0 14px 28px rgb(0 0 0 / 0.5);
+  --shadow-nav: 0 1px 3px rgb(0 0 0 / 0.5);
+  --shadow-btn: 0 1px 2px rgb(0 0 0 / 0.4);
+  /* En dark el tinte se nota más (el fondo es oscuro), así que sube la mezcla. */
+  --shadow-btn-accent: 0 1px 2px rgb(0 0 0 / 0.5),
+    0 4px 12px color-mix(in oklab, var(--color-accent) 20%, transparent);
+  --shadow-btn-accent-hover: 0 2px 6px rgb(0 0 0 / 0.55),
+    0 8px 18px color-mix(in oklab, var(--color-accent) 28%, transparent);
+  --glow-strength: 22%;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Clases de componente
+   ──────────────────────────────────────────────────────────────────────────
+   Centralizan los patrones que antes se repetían a mano en cada componente (el
+   focus ring estaba copiado ~12 veces, y cada botón redeclaraba sus estilos).
+   Un solo lugar define cada patrón → no pueden divergir.
+   Se usa nesting CSS nativo para &:hover / &:focus-visible en vez de @apply con
+   variantes, que es más frágil.
+   ────────────────────────────────────────────────────────────────────────── */
+@layer components {
+  /* Foco visible, idéntico en toda la página. */
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /* Botones. El borde transparente en .btn hace que primario y secundario midan
+     igual, aunque solo el secundario dibuje su borde. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-control);
+    padding-inline: 1.25rem;
+    padding-block: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+    transition: background-color 0.18s ease-out, border-color 0.18s ease-out,
+      color 0.18s ease-out, box-shadow 0.18s ease-out, transform 0.18s ease-out;
+  }
+
+  /* El botón se levanta en hover y se hunde al apretarlo: el feedback de "click"
+     es lo que lo hace sentir un control y no una caja de color. Va bajo
+     prefers-reduced-motion igual que el resto de los movimientos del sitio. */
+  @media (prefers-reduced-motion: no-preference) {
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+  }
+
+  /* El CTA primario es azul (no negro): el azul es el único acento del sistema y
+     necesita un anclaje prominente. Con bg-ink el botón sería negro en light y
+     BLANCO en dark, que rompe esa idea. */
+  .btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-accent-contrast);
+    box-shadow: var(--shadow-btn-accent);
+
+    &:hover {
+      background-color: var(--color-accent-text);
+      box-shadow: var(--shadow-btn-accent-hover);
+    }
+
+    &:active {
+      box-shadow: var(--shadow-btn);
+    }
+  }
+
+  .btn-secondary {
+    border-color: var(--color-border-strong);
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    box-shadow: var(--shadow-btn);
+
+    /* El relleno accent-subtle hace que el secundario también "se encienda" en
+       hover, en vez de cambiar solo el borde: así los dos botones del Hero
+       responden con la misma intensidad. */
+    &:hover {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent-subtle);
+      color: var(--color-accent-text);
+    }
+  }
+
+  /* Chip: skills, stack de proyectos, período e idiomas. */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-chip);
+    background-color: var(--color-chip);
+    padding-inline: 0.625rem;
+    padding-block: 0.1875rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.375rem;
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
+
+  /* Variante azul del chip, para el período de Experiencia. Los chips grises
+     son etiquetas de inventario (tecnologías, skills): hay muchos y compiten
+     entre sí, así que se callan. El período es uno solo por tarjeta y es el
+     dato que se busca al escanear la trayectoria, así que se queda con el
+     acento. No se toca .chip para no volver azul todo lo demás.
+     El texto va en accent-text (no accent) porque es texto y necesita 4.5:1;
+     el borde puede ir en accent pleno, que como no-textual le basta 3:1.
+     El fondo usa el token --color-chip-accent y NO un color-mix() inline:
+     Lightning CSS le genera un fallback con el valor ya resuelto del tema
+     claro, que en dark dejaba el chip casi blanco con texto celeste. Con un
+     token por tema el override de .dark funciona siempre. */
+  .chip-accent {
+    border-color: var(--color-accent);
+    background-color: var(--color-chip-accent);
+    color: var(--color-accent-text);
+  }
+
+  /* Card: proyectos, entradas de experiencia, bloques de skills y el formulario. */
+  .card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-card);
+    transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out,
+      transform 0.2s ease-out;
+  }
+
+  /* Card con feedback de hover/foco (solo Proyectos por ahora). El translate va
+     dentro de no-preference para respetar prefers-reduced-motion. */
+  .card-interactive:hover,
+  .card-interactive:focus-within {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .card-interactive:hover,
+    .card-interactive:focus-within {
+      transform: translateY(-2px);
+    }
+  }
+
+  /* Campos del formulario. Usan border-strong porque son controles. */
+  .field {
+    width: 100%;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-control);
+    background-color: var(--color-surface);
+    padding-inline: 0.75rem;
+    padding-block: 0.625rem;
+    color: var(--color-ink);
+    transition: border-color 0.18s ease-out;
+
+    /* El placeholder se fija al token muted: el default del navegador queda muy
+       claro y no llega al contraste del resto del texto secundario. */
+    &::placeholder {
+      color: var(--color-muted);
+    }
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--color-accent);
+    }
+
+    &[aria-invalid="true"] {
+      border-color: var(--color-danger-text);
+    }
+  }
+
+  /* Grilla de Proyectos con subgrid: cada card ocupa 3 filas del contenedor
+     (título+descripción / chips / link) y mapea sus propias filas a las del
+     padre con grid-template-rows: subgrid. Así las cards de una misma fila
+     alinean la línea separadora y el link SIN min-h con números mágicos, y
+     también a 1 y 2 columnas.
+     El gap del padre separa además las filas internas de la card: por eso el
+     espaciado interno es intencionalmente el mismo 1.5rem.
+     Sin soporte de subgrid la propiedad se ignora y la card queda como grid
+     normal: se ve bien, solo sin alinear entre cards. */
+  .projects-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    position: relative;
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    /* Un subgrid puede pisar el gap que hereda del padre: las 3 filas internas
+       respiran un poco menos que la separación entre cards (1.5rem), así se
+       leen como una sola unidad. */
+    row-gap: 1.25rem;
+  }
+
+  /* Stretched link: el ::after del <a> cubre toda la card, así el hover que ya
+     la levantaba ahora también se puede clickear. El <a> sigue siendo el único
+     elemento focusable y conserva su nombre accesible, por eso no hace falta
+     tabindex ni duplicar el link. */
+  .project-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-card);
+  }
+
+  /* El color va acá y no con text-ink en el HTML: las utilidades de Tailwind
+     viven en una capa posterior a @layer components y le ganarían al color de
+     hover de abajo. */
+  .project-title {
+    color: var(--color-ink);
+    transition: color 0.2s ease-out;
+  }
+
+  .project-card:hover .project-title,
+  .project-card:focus-within .project-title {
+    color: var(--color-accent-text);
+  }
+
+  /* El subrayado va en el hover de la CARD, no del <a>: con el stretched link el
+     puntero casi nunca está encima del texto del link. */
+  .project-card:hover .project-link,
+  .project-card:focus-within .project-link {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .project-arrow {
+    transition: transform 0.18s ease-out;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .project-card:hover .project-arrow,
+    .project-card:focus-within .project-arrow {
+      transform: translateX(3px);
+    }
+  }
+
+  @media (width >= 40rem) {
+    .projects-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 64rem) {
+    .projects-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* Glow radial del Hero. color-mix lo ata al token de accent, así que sigue al
+     tema sin repetir el color; --glow-strength lo sube un poco en dark. */
+  .hero-glow {
+    background-image: radial-gradient(
+      58% 52% at 72% 20%,
+      color-mix(in oklab, var(--color-accent) var(--glow-strength), transparent),
+      transparent 70%
+    );
+  }
+
+  /* Texto con el degradado del acento. Se usa SOLO en texto grande (el apellido
+     del h1): el extremo del degradado cumple 3:1, que es el mínimo de texto
+     grande, no el 4.5:1 de texto normal. No usarla en texto chico. */
+  .text-gradient {
+    /* Fallback: sin background-clip: text el texto quedaría transparente
+       (invisible), así que el color sólido va primero. */
+    color: var(--color-accent-text);
+  }
+
+  @supports (background-clip: text) or (-webkit-background-clip: text) {
+    .text-gradient {
+      background-image: var(--gradient-accent);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  /* Glow secundario del Hero, abajo a la izquierda y en el segundo tono: dos
+     fuentes de luz en distinto tono dan profundidad; una sola se lee plana.
+     Va más suave que el principal (0.7) para no empatarle. */
+  .hero-glow-alt {
+    background-image: radial-gradient(
+      42% 40% at 12% 88%,
+      color-mix(
+        in oklab,
+        var(--color-accent-alt) calc(var(--glow-strength) * 0.7),
+        transparent
+      ),
+      transparent 70%
+    );
+  }
+
+  /* Aro del avatar: el degradado va en un wrapper con padding, no como outline,
+     porque un outline no puede llevar degradado. Cónico (y no lineal) para que
+     el color gire alrededor de la foto y se lea como aro. */
+  .avatar-ring {
+    border-radius: 9999px;
+    padding: 3px;
+    background-image: conic-gradient(
+      from 180deg,
+      var(--color-accent-text),
+      var(--color-accent-alt),
+      var(--color-accent),
+      var(--color-accent-text)
+    );
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* Filete de acento de los rótulos (eyebrow del Hero y de SectionHeading).
+     Degradado a transparente: ancla el rótulo al borde del bloque sin cortarse
+     con una línea dura. */
+  .rule-accent {
+    height: 1px;
+    width: 1.5rem;
+    flex: none;
+    background-image: linear-gradient(to right, var(--color-accent), transparent);
+  }
+
+  /* Tinte superior de las secciones con bg-band: evita que la banda se lea como
+     un bloque plano de color. El ::before va con z-index negativo, así queda
+     arriba del fondo de la sección pero abajo del contenido. */
+  .section-tint {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .section-tint::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    z-index: -1;
+    height: 14rem;
+    pointer-events: none;
+    background-image: linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--color-accent) 7%, transparent),
+      transparent
+    );
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Animaciones de entrada
+   ──────────────────────────────────────────────────────────────────────────
+   Solo existen bajo "no-preference", así que con prefers-reduced-motion activado
+   el contenido queda visible de entrada, sin depender de JS para revertir nada.
+   ────────────────────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
-  /* Secciones que se revelan completas al entrar en viewport (Sobre mí,
-     Experiencia, Proyectos, Contacto). El JS en Base.astro agrega .is-revealed. */
+  /* Elementos que se revelan al entrar en viewport. El JS en Base.astro agrega
+     .is-revealed. --reveal-delay permite escalonar hermanos (las cards de
+     Proyectos entran en cascada en vez de todas juntas). */
   [data-reveal] {
     opacity: 0;
     transform: translateY(0.75rem);
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transition-delay: var(--reveal-delay, 0ms);
   }
 
   [data-reveal].is-revealed {
@@ -90,8 +519,19 @@
   }
 }
 
-/* Cards de Experience/Projects: el feedback de hover/focus es un cambio de color de
-   borde (sin sombra ni translateY), así que la transición queda centralizada acá. */
-.card-border-transition {
-  transition: border-color 0.2s ease-out;
-}
+/* ──────────────────────────────────────────────────────────────────────────
+   Contraste medido (ratio mínimo observado entre canvas / band / surface)
+   ──────────────────────────────────────────────────────────────────────────
+                        LIGHT          DARK        mínimo
+   ink                  17.70:1        16.42:1     4.5  (texto)
+   muted                 6.40:1         7.04:1     4.5  (texto)
+   accent-text           6.20:1         8.36:1     4.5  (texto)
+   danger-text           6.08:1         8.84:1     4.5  (texto)
+   border-strong         3.38:1         3.44:1     3    (control, 1.4.11)
+   accent                4.78:1         5.71:1     3    (relleno / focus ring)
+   accent-contrast sobre accent
+                         5.17:1         6.26:1     4.5  (texto del botón)
+   accent-alt            4.10:1         11.90:1     3    (solo texto grande / degradado)
+   accent-text sobre chip-accent
+                         6.29:1         7.96:1     4.5  (texto del chip de período)
+   ────────────────────────────────────────────────────────────────────────── */

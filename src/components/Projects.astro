@@ -1,37 +1,62 @@
 ---
 import { projects } from '../data/projects.ts';
+import SectionHeading from './SectionHeading.astro';
+import SocialIcon from './SocialIcon.astro';
 ---
 
-<section id="proyectos" data-reveal class="scroll-mt-20 mx-auto max-w-5xl px-4 py-16">
-  <h2 class="font-display text-3xl font-bold">Proyectos</h2>
+<section id="proyectos" class="scroll-mt-16 bg-band section-tint">
+  <div class="mx-auto max-w-5xl px-4 py-20 sm:py-24">
+    <div data-reveal>
+      <SectionHeading eyebrow="Trabajo" title="Proyectos" />
+    </div>
 
-  <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    {projects.map(({ title, description, stack, repoUrl }) => (
-      <article class="card-border-transition flex flex-col rounded border border-border bg-surface p-5 hover:border-accent focus-within:border-accent">
-        <h3 class="font-display text-xl font-medium">{title}</h3>
-        {/* min-h reserva el espacio de la descripción más larga de las 3: así el bloque
-            de stack y la línea separadora arrancan a la misma altura en toda la fila,
-            en vez de que cada card "tire" el link hacia abajo con mt-auto. */}
-        <p class="mt-2 min-h-[7.5rem] text-muted">{description}</p>
-        <ul class="mt-4 min-h-[6.5rem] flex flex-wrap content-start gap-2">
-          {stack.map((tech) => (
-            <li class="rounded-md border border-border bg-canvas px-3 py-1 font-mono text-sm">{tech}</li>
-          ))}
-        </ul>
-        <a
-          href={repoUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="mt-4 inline-flex items-center gap-2 border-t border-border pt-4 text-sm font-medium text-accent-text hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+    <!-- .projects-grid / .project-card usan CSS subgrid (ver global.css): cada
+         card ocupa 3 filas del contenedor y mapea sus filas a las del padre, así
+         los chips y la línea separadora del link quedan a la misma altura en
+         todas las cards de la fila, sin min-h con números mágicos. -->
+    <div class="projects-grid mt-10">
+      {projects.map(({ title, description, stack, repoUrl }, index) => (
+        <article
+          data-reveal
+          style={`--reveal-delay: ${index * 90}ms`}
+          class="project-card card card-interactive p-6"
         >
-          <svg class="h-4 w-4" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-            <polyline points="15 3 21 3 21 9" />
-            <line x1="10" y1="14" x2="21" y2="3" />
-          </svg>
-          Ver repositorio de {title}
-        </a>
-      </article>
-    ))}
+          <div>
+            <h3 class="project-title font-display text-xl font-medium">{title}</h3>
+            <p class="mt-2 text-[0.9375rem] leading-relaxed text-muted">{description}</p>
+          </div>
+
+          <!-- El bloque de stack se alinea al FINAL de su fila del subgrid: como
+               las descripciones miden distinto, el aire sobrante queda entre la
+               descripción y los chips (lectura intencional) en vez de abrirse un
+               hueco entre los chips y la línea del link. -->
+          <div class="flex flex-col justify-end gap-2.5">
+            <p class="font-mono text-[0.6875rem] font-medium tracking-[0.18em] text-muted uppercase">
+              Stack
+            </p>
+            <ul class="flex flex-wrap gap-2">
+              {stack.map((tech) => (
+                <li class="chip">{tech}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="border-t border-border pt-4">
+            <a
+              href={repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="project-link focus-ring inline-flex items-center gap-2 rounded-chip text-sm font-medium text-accent-text"
+            >
+              <SocialIcon name="github" class="h-4 w-4 shrink-0" />
+              {/* El texto visible queda corto y el nombre accesible sigue siendo
+                  específico ("Ver repositorio de CineTracker"), como pide SPECS. */}
+              Ver repositorio<span class="sr-only"> de {title}</span>
+              <SocialIcon name="arrow-right" class="project-arrow h-4 w-4 shrink-0" />
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
   </div>
 </section>

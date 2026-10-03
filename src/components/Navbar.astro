@@ -1,5 +1,6 @@
 ---
-// Links de navegación: anclas a secciones que todavía no existen (se crean en hitos 3-7).
+import SocialIcon from './SocialIcon.astro';
+
 const navLinks = [
   { href: '#inicio', label: 'Inicio' },
   { href: '#sobre-mi', label: 'Sobre mí' },
@@ -9,20 +10,59 @@ const navLinks = [
 ];
 ---
 
-<header class="sticky top-0 z-40 border-b border-border bg-surface/90 backdrop-blur">
-  <nav aria-label="Navegación principal" class="relative mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-    <a href="#inicio" class="font-display text-lg font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2">
+<!-- data-scrolled lo pone el script de abajo: arriba de todo el nav se funde con
+     el Hero (sin borde ni sombra) y solo se despega al scrollear. -->
+<header
+  id="site-header"
+  class="sticky top-0 z-40 border-b border-transparent bg-canvas/80 backdrop-blur-md transition-[border-color,box-shadow] duration-200 data-scrolled:border-border data-scrolled:shadow-(--shadow-nav)"
+>
+  <!-- Grid de 3 columnas (auto / 1fr / auto) en vez de flex+justify-between:
+       así el logo y el grupo de la derecha reservan su propia columna y la
+       del medio (links) nunca puede invadirlos, por angosta que quede. -->
+  <nav aria-label="Navegación principal" class="relative mx-auto grid h-16 max-w-5xl grid-cols-[auto_1fr_auto] items-center gap-4 px-4">
+    <a
+      href="#inicio"
+      class="focus-ring rounded-chip font-display text-lg font-bold tracking-tight text-ink"
+    >
       Walter Toledo
     </a>
 
-    <div class="flex items-center gap-2">
+    <!-- Links centrados: el dropdown mobile pasa a fila inline recién en "lg"
+         (1024px), no en "md" (768px): con el logo + los 5 links + el grupo de
+         la derecha (toggle + Descargar CV) el contenido no entra cómodo antes
+         de esa marca y todo empieza a partirse en dos líneas. En desktop es
+         normal flow dentro de la columna central (1fr), centrado con
+         justify-self; en mobile sigue siendo el dropdown de siempre
+         (absolute), anclado a la hamburguesa. -->
+    <ul
+      id="nav-menu"
+      class="absolute top-[calc(100%+0.5rem)] left-4 right-4 hidden flex-col gap-1 rounded-card border border-border bg-surface p-2 shadow-(--shadow-card-hover) lg:static lg:flex lg:w-auto lg:flex-row lg:justify-self-center lg:gap-1 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none"
+    >
+      {navLinks.map((link) => (
+        <li>
+          <!-- aria-current="page" lo marca el IntersectionObserver de abajo. Se
+               estila con la sintaxis arbitraria aria-[current=page] porque
+               aria-current no está entre las variantes aria por defecto de Tailwind. -->
+          <a
+            href={link.href}
+            class="focus-ring block rounded-control px-3 py-2 text-sm text-muted transition-colors hover:bg-band hover:text-ink aria-[current=page]:bg-accent-subtle aria-[current=page]:text-accent-text lg:py-1.5"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Grupo de la derecha: solo el toggle de tema y Descargar CV (más la
+         hamburguesa, que es mobile-only y abre el menú centrado de arriba). -->
+    <div class="flex items-center gap-1 justify-self-end md:gap-3">
       <!-- Toggle de tema claro/oscuro. El tema inicial se aplica en Base.astro (script en <head>). -->
       <button
         id="theme-toggle"
         type="button"
         aria-pressed="false"
         aria-label="Cambiar a tema oscuro"
-        class="inline-flex rounded-md p-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+        class="focus-ring inline-flex rounded-control p-2.5 text-muted transition-colors hover:bg-band hover:text-ink"
       >
         <svg class="hidden h-5 w-5 dark:block" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="5" />
@@ -33,6 +73,20 @@ const navLinks = [
         </svg>
       </button>
 
+      <!-- Descargar CV: a la derecha del toggle de tema. El texto se oculta en
+           mobile (solo queda el ícono) para no competir por ancho con el
+           toggle y la hamburguesa. -->
+      <a
+        href="/cv-walter-toledo.pdf"
+        download
+        type="application/pdf"
+        aria-label="Descargar CV"
+        class="focus-ring inline-flex items-center gap-2 rounded-control px-2.5 py-2.5 text-sm text-muted transition-colors hover:bg-band hover:text-ink sm:px-3"
+      >
+        <SocialIcon name="download" class="h-5 w-5" />
+        <span class="hidden sm:inline">Descargar CV</span>
+      </a>
+
       <!-- Botón hamburguesa, solo mobile -->
       <button
         id="nav-toggle"
@@ -40,26 +94,13 @@ const navLinks = [
         aria-expanded="false"
         aria-controls="nav-menu"
         aria-label="Abrir menú de navegación"
-        class="inline-flex rounded-md p-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 md:hidden"
+        class="focus-ring inline-flex rounded-control p-2.5 text-muted transition-colors hover:bg-band hover:text-ink lg:hidden"
       >
         <svg class="h-6 w-6" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
     </div>
-
-    <ul
-      id="nav-menu"
-      class="absolute left-0 top-full hidden w-full flex-col gap-4 border-b border-border bg-surface p-4 md:static md:flex md:w-auto md:flex-row md:gap-6 md:border-0 md:bg-transparent md:p-0"
-    >
-      {navLinks.map((link) => (
-        <li>
-          <a href={link.href} class="block py-2 underline-offset-4 decoration-2 hover:text-accent-text hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 md:py-0">
-            {link.label}
-          </a>
-        </li>
-      ))}
-    </ul>
   </nav>
 </header>
 
@@ -108,4 +149,41 @@ const navLinks = [
       toggle.focus();
     }
   });
+
+  // Estado "scrolled" del header y link activo del nav. Los dos dependen del
+  // scroll, así que comparten un solo listener pasivo.
+  const header = document.getElementById('site-header');
+  const sections = Array.from(document.querySelectorAll<HTMLElement>('main section[id]'));
+  const linksByHash = new Map(
+    Array.from(menu?.querySelectorAll<HTMLAnchorElement>('a[href^="#"]') ?? []).map((a) => [a.hash, a])
+  );
+
+  // Línea de referencia justo debajo del nav sticky (64px): la sección activa es
+  // la última cuyo borde superior ya la cruzó.
+  const MARKER_Y = 80;
+
+  const syncNav = () => {
+    header?.toggleAttribute('data-scrolled', window.scrollY > 8);
+
+    if (!sections.length) return;
+
+    let current = sections[0];
+    for (const section of sections) {
+      if (section.getBoundingClientRect().top <= MARKER_Y) current = section;
+    }
+
+    // Al final del documento la última sección puede no llegar nunca a cruzar la
+    // línea (si es más corta que el viewport), así que gana por estar al fondo.
+    const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+    if (atBottom) current = sections[sections.length - 1];
+
+    for (const [hash, link] of linksByHash) {
+      if (hash === `#${current.id}`) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    }
+  };
+
+  syncNav();
+  window.addEventListener('scroll', syncNav, { passive: true });
+  window.addEventListener('resize', syncNav, { passive: true });
 </script>
