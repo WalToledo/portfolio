@@ -91,7 +91,15 @@ const heroLinks = [
 
       <!-- py-1.5 agranda el blanco de toque: el texto solo daba 20px de alto y el
            mínimo de WCAG 2.2 (2.5.8) son 24px. No cambia nada visualmente. -->
-      <ul data-reveal-load style="--reveal-delay: 410ms" class="flex items-center gap-5">
+      <!-- flex-wrap: con los 3 items la fila mide 303px y en 360px hay 328
+           disponibles. Entra, pero con 25px de margen: mientras font-display:swap
+           muestra la fuente de sistema los anchos crecen y "Descargar CV" se
+           cortaría. Que envuelva es más barato que ajustar tamaños. -->
+      <ul
+        data-reveal-load
+        style="--reveal-delay: 410ms"
+        class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 md:justify-start"
+      >
         {heroLinks.map((link) => (
           <li>
             <a
@@ -105,6 +113,22 @@ const heroLinks = [
             </a>
           </li>
         ))}
+        <!-- El CV va en esta fila y no como tercer botón: el par "Ver proyectos" /
+             "Contactarme" ya tiene jerarquía de CTA y un tercero la aplana (en
+             mobile el contenedor es flex-col: serían 3 botones full-width).
+             Tampoco entra en heroLinks porque la semántica es otra: no es un link
+             externo sino una descarga local, de ahí "download" y sin target. -->
+        <li>
+          <a
+            href="/cv-walter-toledo.pdf"
+            download
+            type="application/pdf"
+            class="focus-ring inline-flex items-center gap-2 rounded-chip py-1.5 text-sm text-muted transition-colors hover:text-accent-text"
+          >
+            <SocialIcon name="download" class="h-4 w-4" />
+            Descargar CV
+          </a>
+        </li>
       </ul>
     </div>
 

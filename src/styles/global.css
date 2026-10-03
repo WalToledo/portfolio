@@ -59,6 +59,10 @@
   --color-accent: #2563eb;
   --color-accent-text: #1d4ed8;
   --color-accent-subtle: #eef2ff;
+  /* Hermano más callado de accent-subtle, para el chip de período: el azul
+     vive en el borde y el texto, el relleno solo insinúa. Medido sobre
+     surface (el fondo de la .card que lo contiene). */
+  --color-chip-accent: #f4f8ff;
   --color-accent-contrast: #ffffff;
   --color-danger-text: #b42318;
   /* Segundo tono del acento, solo para degradados (texto del Hero, aro del
@@ -89,6 +93,7 @@
      porque acá el contraste se gana aclarando. */
   --color-accent-text: #8ab0ff;
   --color-accent-subtle: #121a2e;
+  --color-chip-accent: #191b23;
   --color-accent-contrast: #0a0a0b;
   --color-danger-text: #ff9a92;
   /* En dark el segundo tono va claro, igual que accent-text. */
@@ -232,6 +237,23 @@
     line-height: 1.375rem;
     color: var(--color-muted);
     white-space: nowrap;
+  }
+
+  /* Variante azul del chip, para el período de Experiencia. Los chips grises
+     son etiquetas de inventario (tecnologías, skills): hay muchos y compiten
+     entre sí, así que se callan. El período es uno solo por tarjeta y es el
+     dato que se busca al escanear la trayectoria, así que se queda con el
+     acento. No se toca .chip para no volver azul todo lo demás.
+     El texto va en accent-text (no accent) porque es texto y necesita 4.5:1;
+     el borde puede ir en accent pleno, que como no-textual le basta 3:1.
+     El fondo usa el token --color-chip-accent y NO un color-mix() inline:
+     Lightning CSS le genera un fallback con el valor ya resuelto del tema
+     claro, que en dark dejaba el chip casi blanco con texto celeste. Con un
+     token por tema el override de .dark funciona siempre. */
+  .chip-accent {
+    border-color: var(--color-accent);
+    background-color: var(--color-chip-accent);
+    color: var(--color-accent-text);
   }
 
   /* Card: proyectos, entradas de experiencia, bloques de skills y el formulario. */
@@ -510,4 +532,6 @@
    accent-contrast sobre accent
                          5.17:1         6.26:1     4.5  (texto del botón)
    accent-alt            4.10:1         11.90:1     3    (solo texto grande / degradado)
+   accent-text sobre chip-accent
+                         6.29:1         7.96:1     4.5  (texto del chip de período)
    ────────────────────────────────────────────────────────────────────────── */

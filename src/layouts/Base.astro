@@ -18,6 +18,13 @@ const {
   description =
     'Walter Toledo, Desarrollador de Software Fullstack y Analista en Sistemas Informáticos. Construyo productos web de punta a punta, del diseño al deploy.',
 } = Astro.props;
+
+// Canonical y og:image tienen que ser URLs ABSOLUTAS: una ruta relativa deja la
+// preview sin imagen en WhatsApp/LinkedIn. Astro.site viene de "site" en
+// astro.config.mjs; Astro.url.pathname mantiene el canonical correcto si algún
+// día se agrega una segunda página.
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og.png', Astro.site);
 ---
 
 <html lang="es" class="motion-safe:scroll-smooth">
@@ -42,6 +49,37 @@ const {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="author" content="Walter Toledo" />
+
+    <!-- Open Graph: lo que leen WhatsApp, LinkedIn y Facebook al compartir el link.
+         Reusa title y description en vez de repetir el texto: una sola fuente. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Walter Toledo" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Walter Toledo, Desarrollador de Software Fullstack: tarjeta con su foto de perfil, su nombre y su frase de presentación."
+    />
+
+    <!-- Twitter/X no lee og: para el formato de la tarjeta, necesita las suyas.
+         summary_large_image muestra la imagen de 1200×630 entera, no recortada. -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Color de la barra del navegador en mobile. Son los mismos valores de
+         --color-canvas (global.css) para cada tema, así no desentona con la página. -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0a0b" />
     <noscript>
       <style>
         /* Sin JS no hay quién agregue .is-revealed: mostramos todo directamente

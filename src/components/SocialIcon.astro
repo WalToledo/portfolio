@@ -6,7 +6,7 @@
 // Astro: el prop "name" está tipado como unión de strings, así que TypeScript
 // avisa en build si alguien pide un ícono que no existe.
 interface Props {
-  name: 'email' | 'github' | 'linkedin' | 'external' | 'arrow-right';
+  name: 'email' | 'github' | 'linkedin' | 'external' | 'arrow-right' | 'download';
   class?: string;
 }
 
@@ -41,6 +41,24 @@ const { name, class: className = 'h-5 w-5' } = Astro.props;
       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
       <polyline points="15 3 21 3 21 9" />
       <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
+  )
+}
+{
+  name === 'download' && (
+    <svg
+      class={className}
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
     </svg>
   )
 }

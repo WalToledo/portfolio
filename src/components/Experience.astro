@@ -9,8 +9,13 @@ import SectionHeading from './SectionHeading.astro';
 const showTimeline = experience.length > 1;
 ---
 
-<section id="experiencia" class="scroll-mt-16 bg-canvas">
-  <div class="mx-auto max-w-5xl px-4 py-20 sm:py-24">
+<!-- Mismo patrón que Hero y Sobre mí: min-h-[calc(100svh-4rem)] + items-center.
+     Al llegar desde el navbar (scroll-mt-16) la sección cubre la pantalla
+     entera en vez de quedar corta arriba. Es un PISO, no un techo: con poca
+     experiencia la sección se estira para llenar la pantalla en vez de
+     recortar nada. -->
+<section id="experiencia" class="flex min-h-[calc(100svh-4rem)] scroll-mt-16 items-center bg-canvas">
+  <div class="mx-auto w-full max-w-5xl px-4 py-20 sm:py-24">
     <div data-reveal>
       <SectionHeading eyebrow="Trayectoria" title="Experiencia laboral" />
     </div>
@@ -25,7 +30,7 @@ const showTimeline = experience.length > 1;
       )}
 
       <ol class="space-y-5">
-        {experience.map(({ role, company, period }) => (
+        {experience.map(({ role, company, period, description }) => (
           <li class:list={['relative', showTimeline && 'pl-7']}>
             {showTimeline && (
               <span
@@ -40,8 +45,13 @@ const showTimeline = experience.length > 1;
                   <h3 class="font-display text-lg font-medium text-ink">{role}</h3>
                   <p class="mt-1 text-muted">{company}</p>
                 </div>
-                <p class="chip shrink-0 self-start">{period}</p>
+                <p class="chip chip-accent shrink-0 self-start">{period}</p>
               </div>
+
+              {/* Fuera del flex del encabezado: así la descripción ocupa el
+                  ancho completo de la tarjeta en vez de competir con el chip
+                  del período por el espacio de la fila. */}
+              {description && <p class="mt-4 text-pretty leading-relaxed text-muted">{description}</p>}
             </article>
           </li>
         ))}

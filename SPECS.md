@@ -21,7 +21,7 @@ Todo lo marcado con `PENDIENTE` lo completa Walter antes de trabajar el hito cor
 | Lenguaje | TypeScript en datos y scripts |
 | JavaScript en cliente | Solo scripts chicos e inline: menú mobile, tema, animaciones, validación del form |
 | Imágenes | Componente `<Image>` de `astro:assets` (WebP, tamaños definidos) |
-| Deploy | Vercel (plan gratuito). Sitio estático, no requiere adapter |
+| Deploy | Vercel (plan gratuito). Sitio estático, no requiere adapter. URL: `https://portfolio-waltoledo.vercel.app` (declarada como `site` en `astro.config.mjs`; si al deployar cambia, se actualiza ahí) |
 | Formulario | Servicio externo gratuito (Web3Forms o Formspree), ya que Vercel no procesa formularios sin backend. `PENDIENTE: elegir uno` |
 | Idioma del sitio | Español (`<html lang="es">`) |
 
@@ -111,7 +111,10 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 
 ### 3.6 CV
 
-- `PENDIENTE` → `public/cv-walter-toledo.pdf`, botón "Descargar CV" en Hero o Sobre mí
+- Link "Descargar CV" en el Hero (fila de links, junto a GitHub y LinkedIn), apuntando a
+  `/cv-walter-toledo.pdf` con el atributo `download`.
+- `PENDIENTE`: dejar el archivo en `public/cv-walter-toledo.pdf`. El link ya está en su lugar;
+  hasta que el PDF exista responde 404.
 
 ## 4. Requisitos por sección
 
@@ -169,7 +172,9 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 - **Tema:** claro/oscuro con Tailwind (`dark:` por clase). Script inline en `<head>` que aplique el tema antes del render (preferencia guardada o `prefers-color-scheme`) para evitar flash.
 - **Animaciones:** sutiles (fade/slide al entrar en viewport con IntersectionObserver), solo dentro de `prefers-reduced-motion: no-preference`.
 - **Performance:** objetivo Lighthouse ≥ 90 en Performance y Accessibility (mobile). Sin librerías JS innecesarias; fuentes con `font-display: swap` o del sistema.
-- **SEO básico:** `<title>`, meta description, Open Graph, favicon.
+- **SEO básico:** `<title>`, meta description, URL canónica, Open Graph + Twitter Card
+  (con tarjeta propia de 1200×630 en `public/og.png`), `theme-color` por tema y favicon.
+  Todo centralizado en `Base.astro`; `og:url` y `og:image` se arman absolutas con `Astro.site`.
 
 ## 6. Hitos (un commit por hito)
 
@@ -183,7 +188,7 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 8. Pasada de responsive y accesibilidad. [DONE]
 9. Modo oscuro / claro. [DONE]
 10. Animaciones con `prefers-reduced-motion`. [DONE]
-11. CV descargable + SEO/meta.
+11. CV descargable + SEO/meta. [DONE]
 12. Deploy en Vercel + auditoría Lighthouse y correcciones.
 13. README final (stack, cómo correrlo, link al deploy).
 
