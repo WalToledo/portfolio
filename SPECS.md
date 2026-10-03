@@ -42,9 +42,9 @@ Todo lo marcado con `PENDIENTE` lo completa Walter antes de trabajar el hito cor
 Como freelance desarrollé soluciones para clientes, como plataformas de suscripción, e-commerce y paneles de gestión. Soy Analista en Sistemas Informáticos, estudio Ingeniería en Sistemas y me estoy formando en infraestructura: cómo se despliegan, escalan y mantienen las aplicaciones en producción.
 - **Habilidades por categoría:**
   - Frontend: React, Next.js, TypeScript, JavaScript, Tailwind CSS, HTML, CSS
-  - Backend: Node.js, Next.js, Prisma (ORM), C, C#, .NET, diseño y consumo de
-APIs REST.
-  - Herramientas: Git, GitHub, Bases de datos (SQL, NoSQL), Docker
+  - Backend: Node.js, Next.js, Prisma (ORM), C, C#/.NET, APIs REST
+  - Bases de Datos: PostgreSQL, MySQL, SQL Server, NoSQL
+  - Herramientas: Git, GitHub, Docker
   - Idiomas: Inglés, Español
 
 Los datos viven en `src/data/skills.ts`.
@@ -107,6 +107,7 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 - **GitHub:** https://github.com/WalToledo
 - **LinkedIn:** https://www.linkedin.com/in/walter-ariel-toledo
 - **Formulario:** nombre, email, mensaje. Validación obligatoria (ver 4.6)
+- **Título de la sección:** "Tu mensaje" (el link del navbar sigue diciendo "Contacto")
 
 ### 3.6 CV
 
@@ -150,7 +151,9 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 - Email, GitHub y LinkedIn con íconos + texto o `aria-label`.
 - Formulario:
   - `<label>` asociado a cada campo.
-  - Validación nativa (`required`, `type="email"`, `minlength`) + mensajes propios en español.
+  - Validación nativa (`required`, `type="email"`, `minlength`, `maxlength`) + mensajes propios en español.
+  - El mensaje debe tener entre 10 y 2000 caracteres, dicho en el formulario y con contador en vivo.
+  - Placeholders: "Tu nombre", "nombre@ejemplo.com", "¿Sobre qué te gustaría conversar?" (no reemplazan al `<label>`).
   - Errores anunciados con `aria-live="polite"` y `aria-describedby` en cada campo.
   - Estado de envío (enviando / enviado / error) sin recargar la página.
 

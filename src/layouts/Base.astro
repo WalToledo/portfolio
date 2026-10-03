@@ -46,10 +46,10 @@ const { title = 'Walter Toledo' } = Astro.props;
       </style>
     </noscript>
   </head>
-  <body class="flex min-h-screen flex-col overflow-x-hidden bg-canvas text-ink">
+  <body class="flex min-h-screen flex-col overflow-x-hidden bg-canvas text-ink antialiased selection:bg-accent/20">
     <a
       href="#contenido"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-surface focus:px-4 focus:py-2 focus:text-ink focus:outline focus:outline-2 focus:outline-accent focus:outline-offset-2"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-control focus:border focus:border-border focus:bg-surface focus:px-4 focus:py-2 focus:text-ink focus:shadow-(--shadow-card-hover) focus:outline-2 focus:outline-offset-2 focus:outline-accent"
     >
       Saltar al contenido
     </a>

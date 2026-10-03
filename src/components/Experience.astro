@@ -1,20 +1,44 @@
 ---
 import { experience } from '../data/experience.ts';
+import SectionHeading from './SectionHeading.astro';
+
+// El rail vertical del timeline solo tiene sentido si hay algo que conectar.
+// Antes se dibujaba con not-last:border-l-2, que con una sola entrada no
+// renderizaba ninguna línea y dejaba el punto suelto.
+const showRail = experience.length > 1;
 ---
 
-<section id="experiencia" data-reveal class="scroll-mt-20 mx-auto max-w-5xl px-4 py-16">
-  <h2 class="font-display text-3xl font-bold">Experiencia laboral</h2>
+<section id="experiencia" class="scroll-mt-16 bg-canvas">
+  <div class="mx-auto max-w-5xl px-4 py-20 sm:py-24">
+    <div data-reveal>
+      <SectionHeading eyebrow="Trayectoria" title="Experiencia laboral" />
+    </div>
 
-  <!-- Timeline: la línea conectora (border-l) solo se dibuja entre entradas (not-last),
-       así que con una única entrada se ve completa igual, sin cola colgando. -->
-  <div class="mt-8 space-y-6">
-    {experience.map(({ role, company, period }) => (
-      <article class="relative pl-6 not-last:border-l-2 not-last:border-border">
-        <span aria-hidden="true" class="absolute left-0 top-1.5 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-accent"></span>
-        <h3 class="font-display text-xl font-medium">{role}</h3>
-        <p class="mt-1 text-muted">{company}</p>
-        <p class="mt-1 font-mono text-sm text-muted">{period}</p>
-      </article>
-    ))}
+    <div data-reveal style="--reveal-delay: 80ms" class="relative mt-10">
+      {showRail && (
+        <span aria-hidden="true" class="absolute top-3 bottom-3 left-[3.5px] w-px bg-border"></span>
+      )}
+
+      <ol class="space-y-5">
+        {experience.map(({ role, company, period }) => (
+          <li class="relative pl-7">
+            <span
+              aria-hidden="true"
+              class="absolute top-6 left-0 h-2 w-2 rounded-full bg-accent ring-4 ring-canvas"
+            ></span>
+
+            <article class="card p-6">
+              <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <h3 class="font-display text-lg font-medium text-ink">{role}</h3>
+                  <p class="mt-1 text-muted">{company}</p>
+                </div>
+                <p class="chip shrink-0 self-start">{period}</p>
+              </div>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </div>
   </div>
 </section>

@@ -1,46 +1,94 @@
 ---
 import { Image } from 'astro:assets';
 import avatar from '../assets/avatar.jpeg';
+import SocialIcon from './SocialIcon.astro';
 
 const name = 'Walter Toledo';
 const role = 'Desarrollador de Software Fullstack';
 const title = 'Analista en Sistemas Informáticos';
 const tagline = 'Construyo productos web de punta a punta, del diseño al deploy.';
+
+const heroLinks = [
+  { name: 'github' as const, label: 'GitHub', href: 'https://github.com/WalToledo' },
+  { name: 'linkedin' as const, label: 'LinkedIn', href: 'https://www.linkedin.com/in/walter-ariel-toledo' },
+];
 ---
 
+<!-- min-h-[calc(100svh-4rem)]: el hero ocupa la primera pantalla menos la altura
+     del navbar sticky (h-16). Es un piso, no un techo: si el contenido crece (texto
+     grande, pantalla baja) la sección se estira en vez de recortarlo. "svh" usa la
+     altura chica del viewport, así en mobile no salta cuando se oculta la barra del navegador. -->
 <section
   id="inicio"
-  class="scroll-mt-20 mx-auto grid min-h-[70vh] max-w-5xl items-center gap-10 px-4 py-16 text-center md:grid-cols-[1.2fr_0.8fr] md:text-left"
+  class="relative isolate flex min-h-[calc(100svh-4rem)] scroll-mt-16 items-center overflow-hidden bg-canvas"
 >
-  <div class="order-2 flex flex-col items-center gap-4 md:order-1 md:items-start">
-    <h1 data-reveal-load style="--reveal-delay: 90ms" class="font-display text-4xl font-bold tracking-tight md:text-6xl">{name}</h1>
-    <p data-reveal-load style="--reveal-delay: 160ms" class="text-xl font-medium text-muted">{role}</p>
-    <p data-reveal-load style="--reveal-delay: 220ms" class="text-muted">{title}</p>
-    <p data-reveal-load style="--reveal-delay: 280ms" class="max-w-md text-muted">{tagline}</p>
+  <!-- Glow radial detrás del contenido. aria-hidden + pointer-events-none: es
+       puramente decorativo, no debe recibir foco ni clicks ni anunciarse. -->
+  <div aria-hidden="true" class="hero-glow pointer-events-none absolute inset-0 -z-10"></div>
 
-    <div data-reveal-load style="--reveal-delay: 340ms" class="mt-4 flex w-full flex-col gap-4 sm:w-auto sm:flex-row sm:flex-wrap">
-      <a
-        href="#proyectos"
-        class="rounded-md bg-ink px-6 py-3 text-center font-medium text-canvas hover:bg-accent-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+  <div
+    class="mx-auto grid w-full max-w-5xl items-center gap-10 px-4 py-10 text-center sm:gap-12 sm:py-16 md:grid-cols-[minmax(0,1fr)_auto] md:text-left"
+  >
+    <div class="order-2 flex flex-col items-center gap-5 md:order-1 md:items-start">
+      <div class="flex flex-col gap-3 sm:gap-4">
+        <h1
+          data-reveal-load
+          style="--reveal-delay: 120ms"
+          class="font-display text-5xl font-bold tracking-tight text-balance text-ink sm:text-6xl lg:text-7xl"
+        >
+          {name}
+        </h1>
+
+        <!-- Jerarquía: el rol es lo segundo que se lee, así que va en "ink".
+             Título y tagline quedan en "muted", subordinados. -->
+        <p data-reveal-load style="--reveal-delay: 190ms" class="font-display text-xl font-medium text-ink sm:text-2xl">
+          {role}
+        </p>
+        <p data-reveal-load style="--reveal-delay: 240ms" class="text-muted">{title}</p>
+        <p data-reveal-load style="--reveal-delay: 290ms" class="max-w-md text-lg leading-relaxed text-muted text-pretty">
+          {tagline}
+        </p>
+      </div>
+
+      <div
+        data-reveal-load
+        style="--reveal-delay: 350ms"
+        class="mt-1 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center"
       >
-        Ver proyectos
-      </a>
-      <a
-        href="#contacto"
-        class="rounded-md border border-ink px-6 py-3 text-center font-medium hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-      >
-        Contactarme
-      </a>
+        <a href="#proyectos" class="btn btn-primary focus-ring">Ver proyectos</a>
+        <a href="#contacto" class="btn btn-secondary focus-ring">Contactarme</a>
+      </div>
+
+      <ul data-reveal-load style="--reveal-delay: 410ms" class="flex items-center gap-5">
+        {heroLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="focus-ring inline-flex items-center gap-2 rounded-chip text-sm text-muted transition-colors hover:text-accent-text"
+            >
+              <SocialIcon name={link.name} class="h-4 w-4" />
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- La foto escala con el viewport: clamp(mínimo, fluido, máximo). Nunca baja de
+         152px en pantallas chicas ni pasa de 288px en desktop, así el hero entra en una
+         pantalla sin dejar la foto diminuta. width/height van al doble del máximo (576px)
+         para que astro:assets genere la versión retina y el CSS la baje. -->
+    <div data-reveal-load style="--reveal-delay: 0ms" class="order-1 justify-self-center md:order-2 md:justify-self-end">
+      <Image
+        src={avatar}
+        alt={`Foto de perfil de ${name}`}
+        width={576}
+        height={576}
+        loading="eager"
+        class="size-[clamp(9.5rem,30vw,18rem)] rounded-full object-cover ring-1 ring-border shadow-(--shadow-card-hover) outline-2 outline-offset-4 outline-accent/25"
+      />
     </div>
   </div>
-
-  <Image
-    src={avatar}
-    alt={`Foto de perfil de ${name}`}
-    width={160}
-    height={160}
-    data-reveal-load
-    style="--reveal-delay: 0ms"
-    class="order-1 h-40 w-40 justify-self-center rounded-full object-cover md:order-2 md:justify-self-end"
-  />
 </section>
