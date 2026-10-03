@@ -86,15 +86,18 @@ const heroLinks = [
         class="mt-1 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center"
       >
         <a href="#proyectos" class="btn btn-primary focus-ring">Ver proyectos</a>
-        <a href="#contacto" class="btn btn-secondary focus-ring">Contactarme</a>
+        <a href="/cv-walter-toledo.pdf" download type="application/pdf" class="btn btn-secondary focus-ring inline-flex items-center gap-2">
+          <SocialIcon name="download" class="h-4 w-4" />
+          Descargar CV
+        </a>
       </div>
 
       <!-- py-1.5 agranda el blanco de toque: el texto solo daba 20px de alto y el
            mínimo de WCAG 2.2 (2.5.8) son 24px. No cambia nada visualmente. -->
       <!-- flex-wrap: con los 3 items la fila mide 303px y en 360px hay 328
            disponibles. Entra, pero con 25px de margen: mientras font-display:swap
-           muestra la fuente de sistema los anchos crecen y "Descargar CV" se
-           cortaría. Que envuelva es más barato que ajustar tamaños. -->
+           muestra la fuente de sistema los anchos crecen y los labels se
+           cortarían. Que envuelva es más barato que ajustar tamaños. -->
       <ul
         data-reveal-load
         style="--reveal-delay: 410ms"
@@ -113,20 +116,18 @@ const heroLinks = [
             </a>
           </li>
         ))}
-        <!-- El CV va en esta fila y no como tercer botón: el par "Ver proyectos" /
-             "Contactarme" ya tiene jerarquía de CTA y un tercero la aplana (en
-             mobile el contenedor es flex-col: serían 3 botones full-width).
-             Tampoco entra en heroLinks porque la semántica es otra: no es un link
-             externo sino una descarga local, de ahí "download" y sin target. -->
+        <!-- Contactarme va en esta fila y no como tercer botón: el par "Ver
+             proyectos" / "Descargar CV" ya tiene jerarquía de CTA y un tercero
+             la aplana (en mobile el contenedor es flex-col: serían 3 botones
+             full-width). Tampoco entra en heroLinks porque no es un link
+             externo sino un ancla interna a la sección de contacto. -->
         <li>
           <a
-            href="/cv-walter-toledo.pdf"
-            download
-            type="application/pdf"
+            href="#contacto"
             class="focus-ring inline-flex items-center gap-2 rounded-chip py-1.5 text-sm text-muted transition-colors hover:text-accent-text"
           >
-            <SocialIcon name="download" class="h-4 w-4" />
-            Descargar CV
+            <SocialIcon name="email" class="h-4 w-4" />
+            Contactarme
           </a>
         </li>
       </ul>
