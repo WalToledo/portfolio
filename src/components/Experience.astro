@@ -1,6 +1,9 @@
 ---
 import { experience } from '../data/experience.ts';
 import SectionHeading from './SectionHeading.astro';
+import { translations } from '../data/i18n';
+
+const t = translations.es.experience;
 
 // Un timeline (riel + puntos) solo tiene sentido si hay algo que CONECTAR. Con
 // una sola entrada no se dibuja ninguno de los dos: antes el riel ya se omitía
@@ -9,15 +12,16 @@ import SectionHeading from './SectionHeading.astro';
 const showTimeline = experience.length > 1;
 ---
 
-<!-- Mismo patrón que Hero y Sobre mí: min-h-[calc(100svh-4rem)] + items-center.
-     Al llegar desde el navbar (scroll-mt-16) la sección cubre la pantalla
-     entera en vez de quedar corta arriba. Es un PISO, no un techo: con poca
-     experiencia la sección se estira para llenar la pantalla en vez de
-     recortar nada. -->
-<section id="experiencia" class="flex min-h-[calc(100svh-4rem)] scroll-mt-16 items-center bg-canvas">
+<!-- Pantalla completa como Hero/Sobre mí, pero items-start en vez de
+     items-center: con pocas entradas (2 tarjetas) centrar verticalmente
+     dejaba el mismo aire arriba Y abajo del contenido (se veía flotando,
+     "descentrado"). Con items-start el contenido arranca pegado al padding de
+     arriba (igual que las demás secciones) y el sobrante de la pantalla se
+     acumula solo abajo, antes de Proyectos, en vez de partirse en dos. -->
+<section id="experiencia" class="flex min-h-[calc(100svh-5rem)] scroll-mt-20 items-start bg-canvas">
   <div class="mx-auto w-full max-w-5xl px-4 py-20 sm:py-24">
     <div data-reveal>
-      <SectionHeading eyebrow="Trayectoria" title="Experiencia laboral" />
+      <SectionHeading eyebrow={t.eyebrow} title={t.title} eyebrowKey="experience.eyebrow" titleKey="experience.title" />
     </div>
 
     <!-- max-w-3xl: a 1024px una entrada sola deja la tarjeta casi vacía y manda
@@ -42,16 +46,20 @@ const showTimeline = experience.length > 1;
             <article class="card p-6">
               <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                  <h3 class="font-display text-lg font-medium text-ink">{role}</h3>
+                  <h3 class="font-display text-lg font-medium text-ink" data-i18n-es={role.es} data-i18n-en={role.en}>{role.es}</h3>
                   <p class="mt-1 text-muted">{company}</p>
                 </div>
-                <p class="chip chip-accent shrink-0 self-start">{period}</p>
+                <p class="chip chip-accent shrink-0 self-start" data-i18n-es={period.es} data-i18n-en={period.en}>{period.es}</p>
               </div>
 
               {/* Fuera del flex del encabezado: así la descripción ocupa el
                   ancho completo de la tarjeta en vez de competir con el chip
                   del período por el espacio de la fila. */}
-              {description && <p class="mt-4 text-pretty leading-relaxed text-muted">{description}</p>}
+              {description && (
+                <p class="mt-4 text-pretty leading-relaxed text-muted" data-i18n-es={description.es} data-i18n-en={description.en}>
+                  {description.es}
+                </p>
+              )}
             </article>
           </li>
         ))}

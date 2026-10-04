@@ -1,24 +1,28 @@
+import type { Localized } from './i18n';
+
 export interface ExperienceEntry {
-  role: string;
+  role: Localized;
   company: string;
-  period: string;
+  period: Localized;
   // Opcional: solo las entradas que necesitan explicar de qué se trata el
   // puesto la llevan. Sin descripción, la tarjeta queda igual que antes.
-  description?: string;
+  description?: Localized;
 }
 
 // Orden cronológico inverso: la más reciente primero.
 export const experience: ExperienceEntry[] = [
   {
-    role: 'Desarrollador de Software Fullstack Junior',
+    role: { es: 'Desarrollador de Software Fullstack Junior', en: 'Junior Fullstack Software Developer' },
     company: 'Jusmet',
-    period: '2026–actualidad',
+    period: { es: '2026–actualidad', en: '2026–present' },
   },
   {
-    role: 'Desarrollador full stack',
+    role: { es: 'Desarrollador full stack', en: 'Full-stack Developer' },
     company: 'Freelance',
-    period: '2026–actualidad',
-    description:
-      'Sitios y sistemas a medida para estudios, agencias y comercios: arquitectura, frontend, APIs, CRMs propios y deploy en Vercel.',
+    period: { es: '2026–actualidad', en: '2026–present' },
+    description: {
+      es: 'Sitios y sistemas a medida para estudios, agencias y comercios: arquitectura, frontend, APIs, CRMs propios y deploy en Vercel.',
+      en: 'Custom sites and systems for studios, agencies, and businesses: architecture, frontend, APIs, custom CRMs, and deployment on Vercel.',
+    },
   },
 ];

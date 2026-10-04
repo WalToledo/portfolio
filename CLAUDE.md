@@ -30,7 +30,7 @@ npm run preview    # servir el build localmente
 - Estilos con clases de Tailwind; CSS propio solo si Tailwind no alcanza.
 - JavaScript de cliente mínimo, en `<script>` dentro del componente que lo usa. Sin frameworks de UI.
 - HTML semántico y accesible: un solo `h1`, labels en los inputs, foco visible, `alt` descriptivos.
-- Todo texto visible en español.
+- Todo texto visible en español por defecto; el toggle de idioma del Navbar lo traduce a inglés vía el diccionario `src/data/i18n.ts` (texto nuevo se agrega ahí, en los dos idiomas).
 - Nombres de archivos y componentes en inglés; contenido y comentarios en español.
 
    ## Memoria

@@ -23,7 +23,7 @@ Todo lo marcado con `PENDIENTE` lo completa Walter antes de trabajar el hito cor
 | Imágenes | Componente `<Image>` de `astro:assets` (WebP, tamaños definidos) |
 | Deploy | Vercel (plan gratuito). Sitio estático, no requiere adapter. URL: `https://portfolio-waltoledo.vercel.app` (declarada como `site` en `astro.config.mjs`; si al deployar cambia, se actualiza ahí) |
 | Formulario | Servicio externo gratuito (Web3Forms o Formspree), ya que Vercel no procesa formularios sin backend. `PENDIENTE: elegir uno` |
-| Idioma del sitio | Español (`<html lang="es">`) |
+| Idioma del sitio | Español por defecto (`<html lang="es">`), con toggle a inglés desde el Navbar |
 
 ## 3. Contenido
 
@@ -125,6 +125,7 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 - Mobile: menú hamburguesa con `aria-expanded`, `aria-controls`, cierre con Escape y al elegir un link.
 - Link "Saltar al contenido" visible al recibir foco.
 - Toggle de tema claro/oscuro.
+- Toggle de idioma ES/EN: botón que muestra el código del idioma al que cambia (EN/ES) y traduce todo el contenido visible del sitio sin recargar la página (ver hito 14).
 
 ### 4.2 Hero (`<section id="inicio">`)
 
@@ -191,6 +192,7 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 11. CV descargable + SEO/meta. [DONE]
 12. Deploy en Vercel + auditoría Lighthouse y correcciones.
 13. README final (stack, cómo correrlo, link al deploy).
+14. Toggle de idioma ES/EN en el navbar: diccionario `src/data/i18n.ts`, traducción de todo el contenido visible (Navbar, Hero, Sobre mí, Experiencia, Proyectos, Contacto, Footer, título/meta description). [DONE]
 
 ## 7. Checklist de aceptación
 
@@ -215,3 +217,4 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 - [x] Animaciones que respetan `prefers-reduced-motion`
 - [ ] CV descargable en PDF
 - [ ] Lighthouse ≥ 90 en Performance y Accessibility
+- [x] Toggle de idioma ES/EN en el navbar

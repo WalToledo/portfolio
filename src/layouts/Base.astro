@@ -4,6 +4,7 @@
 import '../styles/global.css';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import { translations } from '../data/i18n';
 
 interface Props {
   title?: string;
@@ -11,13 +12,9 @@ interface Props {
 }
 
 // La description sigue el mismo patrón que el title: un default acá y cada
-// página puede pisarlo. El texto sale de los datos ya confirmados en SPECS 3.1
-// (rol, título y frase de presentación), no es contenido nuevo.
-const {
-  title = 'Walter Toledo',
-  description =
-    'Walter Toledo, Desarrollador de Software Fullstack y Analista en Sistemas Informáticos. Construyo productos web de punta a punta, del diseño al deploy.',
-} = Astro.props;
+// página puede pisarlo. El texto sale del diccionario de i18n (meta.title /
+// meta.description), que es la misma fuente que usa el toggle de idioma.
+const { title = translations.es.meta.title, description = translations.es.meta.description } = Astro.props;
 
 // Canonical y og:image tienen que ser URLs ABSOLUTAS: una ruta relativa deja la
 // preview sin imagen en WhatsApp/LinkedIn. Astro.site viene de "site" en
@@ -38,6 +35,14 @@ const ogImage = new URL('/og.png', Astro.site);
         const isDark = stored ? stored === 'dark' : prefersDark;
         document.documentElement.classList.toggle('dark', isDark);
       })();
+      // Idioma guardado: solo fija el atributo lang antes del render (el
+      // contenido se renderiza en español y recién lo traduce el script del
+      // Navbar una vez cargado el DOM). Evita que <html lang> quede
+      // desincronizado del idioma elegido mientras el resto del JS carga.
+      (function () {
+        const storedLang = localStorage.getItem('lang');
+        document.documentElement.lang = storedLang === 'en' ? 'en' : 'es';
+      })();
     </script>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -47,8 +52,8 @@ const ogImage = new URL('/og.png', Astro.site);
     <link rel="preload" href="/fonts/space-grotesk-700.woff2" as="font" type="font/woff2" crossorigin />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <title data-i18n="meta.title">{title}</title>
+    <meta name="description" content={description} data-i18n-content="meta.description" />
     <link rel="canonical" href={canonical} />
     <meta name="author" content="Walter Toledo" />
 
@@ -96,6 +101,7 @@ const ogImage = new URL('/og.png', Astro.site);
   <body class="flex min-h-screen flex-col overflow-x-hidden bg-canvas text-ink antialiased selection:bg-accent/20">
     <a
       href="#contenido"
+      data-i18n="nav.skipLink"
       class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-control focus:border focus:border-border focus:bg-surface focus:px-4 focus:py-2 focus:text-ink focus:shadow-(--shadow-card-hover) focus:outline-2 focus:outline-offset-2 focus:outline-accent"
     >
       Saltar al contenido
