@@ -21,7 +21,7 @@ Todo lo marcado con `PENDIENTE` lo completa Walter antes de trabajar el hito cor
 | Lenguaje | TypeScript en datos y scripts |
 | JavaScript en cliente | Solo scripts chicos e inline: menú mobile, tema, animaciones, validación del form |
 | Imágenes | Componente `<Image>` de `astro:assets` (WebP, tamaños definidos) |
-| Deploy | Vercel (plan gratuito). Sitio estático, no requiere adapter. URL: `https://portfolio-waltoledo.vercel.app` (declarada como `site` en `astro.config.mjs`; si al deployar cambia, se actualiza ahí) |
+| Deploy | Vercel (plan gratuito). Sitio estático, no requiere adapter. URL: `https://portfolio-walter-toledo.vercel.app` (declarada como `site` en `astro.config.mjs`; si al deployar cambia, se actualiza ahí) |
 | Formulario | Servicio externo gratuito (Web3Forms o Formspree), ya que Vercel no procesa formularios sin backend. `PENDIENTE: elegir uno` |
 | Idioma del sitio | Español por defecto (`<html lang="es">`), con toggle a inglés desde el Navbar |
 
@@ -190,8 +190,8 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 9. Modo oscuro / claro. [DONE]
 10. Animaciones con `prefers-reduced-motion`. [DONE]
 11. CV descargable + SEO/meta. [DONE]
-12. Deploy en Vercel + auditoría Lighthouse y correcciones.
-13. README final (stack, cómo correrlo, link al deploy).
+12. Deploy en Vercel + auditoría Lighthouse y correcciones. [DONE]
+13. README final (stack, cómo correrlo, link al deploy). [DONE]
 14. Toggle de idioma ES/EN en el navbar: diccionario `src/data/i18n.ts`, traducción de todo el contenido visible (Navbar, Hero, Sobre mí, Experiencia, Proyectos, Contacto, Footer, título/meta description). [DONE]
 
 ## 7. Checklist de aceptación
@@ -208,13 +208,13 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 - [x] `alt` en todas las imágenes, contraste legible, navegable con teclado
 - [x] Cero contenido de relleno
 - [ ] Commits progresivos en GitHub
-- [ ] README con stack y cómo correrlo localmente
-- [ ] Deploy público en Vercel
+- [x] README con stack y cómo correrlo localmente
+- [x] Deploy público en Vercel
 
 ### Opcionales
 - [x] Formulario con validación
 - [x] Modo oscuro y claro
 - [x] Animaciones que respetan `prefers-reduced-motion`
 - [ ] CV descargable en PDF
-- [ ] Lighthouse ≥ 90 en Performance y Accessibility
+- [x] Lighthouse ≥ 90 en Performance y Accessibility
 - [x] Toggle de idioma ES/EN en el navbar

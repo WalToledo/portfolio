@@ -61,7 +61,7 @@ const navLinks = [
         id="lang-toggle"
         type="button"
         aria-pressed="false"
-        aria-label="Cambiar a inglés"
+        aria-label="Cambiar a inglés (EN)"
         class="focus-ring inline-flex min-w-9 items-center justify-center rounded-control p-2.5 text-xs font-semibold tracking-wide text-muted transition-colors hover:bg-band hover:text-ink"
       >
         EN
@@ -190,7 +190,7 @@ const navLinks = [
     });
 
     langToggle?.setAttribute('aria-pressed', String(lang === 'en'));
-    langToggle?.setAttribute('aria-label', lang === 'en' ? 'Switch to Spanish' : 'Cambiar a inglés');
+    langToggle?.setAttribute('aria-label', lang === 'en' ? 'Switch to Spanish (ES)' : 'Cambiar a inglés (EN)');
     if (langToggle) langToggle.textContent = lang === 'en' ? 'ES' : 'EN';
 
     syncThemeToggle();
