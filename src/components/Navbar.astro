@@ -153,9 +153,12 @@ const navLinks = [
     Array.from(menu?.querySelectorAll<HTMLAnchorElement>('a[href^="#"]') ?? []).map((a) => [a.hash, a])
   );
 
-  // Línea de referencia justo debajo del nav sticky (64px): la sección activa es
-  // la última cuyo borde superior ya la cruzó.
-  const MARKER_Y = 80;
+  // Línea de referencia debajo del navbar flotante (top-4 + h-16 = 80px): la
+  // sección activa es la última cuyo borde superior ya la cruzó. Con margen de
+  // 16px extra sobre esos 80px: al hacer click en un link, scroll-mt-20 deja el
+  // top de la sección en ~80px y por redondeo a veces queda en 80.x, lo que
+  // fallaba el "<= 80" y el link no se iluminaba hasta scrollear un poco más.
+  const MARKER_Y = 96;
 
   const syncNav = () => {
     if (!sections.length) return;

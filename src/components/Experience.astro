@@ -9,12 +9,13 @@ import SectionHeading from './SectionHeading.astro';
 const showTimeline = experience.length > 1;
 ---
 
-<!-- Mismo patrón que Hero y Sobre mí: min-h-[calc(100svh-4rem)] + items-center.
-     Al llegar desde el navbar (scroll-mt-16) la sección cubre la pantalla
-     entera en vez de quedar corta arriba. Es un PISO, no un techo: con poca
-     experiencia la sección se estira para llenar la pantalla en vez de
-     recortar nada. -->
-<section id="experiencia" class="flex min-h-[calc(100svh-4rem)] scroll-mt-16 items-center bg-canvas">
+<!-- Pantalla completa como Hero/Sobre mí, pero items-start en vez de
+     items-center: con pocas entradas (2 tarjetas) centrar verticalmente
+     dejaba el mismo aire arriba Y abajo del contenido (se veía flotando,
+     "descentrado"). Con items-start el contenido arranca pegado al padding de
+     arriba (igual que las demás secciones) y el sobrante de la pantalla se
+     acumula solo abajo, antes de Proyectos, en vez de partirse en dos. -->
+<section id="experiencia" class="flex min-h-[calc(100svh-5rem)] scroll-mt-20 items-start bg-canvas">
   <div class="mx-auto w-full max-w-5xl px-4 py-20 sm:py-24">
     <div data-reveal>
       <SectionHeading eyebrow="Trayectoria" title="Experiencia laboral" />

@@ -9,12 +9,13 @@ const bioParagraphs = [
 ];
 ---
 
-<!-- Mismo patrón que el Hero: min-h-[calc(100svh-4rem)] + items-center. Al
-     llegar desde el navbar (scroll-mt-16) la sección cubre la pantalla entera y
-     el contenido queda centrado, en vez de empezar pegado arriba con el resto
-     cortado abajo. Es un PISO, no un techo: en pantallas bajas la sección se
-     estira en lugar de recortar las tarjetas. -->
-<section id="sobre-mi" class="flex min-h-[calc(100svh-4rem)] scroll-mt-16 items-center bg-band section-tint">
+<!-- Mismo patrón que el Hero: min-h-[calc(100svh-5rem)] + items-center. Al
+     llegar desde el navbar flotante (scroll-mt-20: top-4 + su propia altura =
+     5rem) la sección cubre la pantalla entera y el contenido queda centrado,
+     en vez de empezar pegado arriba con el resto cortado abajo. Es un PISO, no
+     un techo: en pantallas bajas la sección se estira en lugar de recortar las
+     tarjetas. -->
+<section id="sobre-mi" class="flex min-h-[calc(100svh-5rem)] scroll-mt-20 items-center bg-band section-tint">
   <!-- El padding se achica recién en lg, que es donde entra el layout de una
        pantalla: con items-center el aire lo pone el centrado, así que un padding
        chico solo cambia las cosas en pantallas BAJAS, donde es lo que evita que
