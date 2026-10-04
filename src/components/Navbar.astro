@@ -10,16 +10,13 @@ const navLinks = [
 ];
 ---
 
-<!-- data-scrolled lo pone el script de abajo: arriba de todo el nav se funde con
-     el Hero (sin borde ni sombra) y solo se despega al scrollear. -->
-<header
-  id="site-header"
-  class="sticky top-0 z-40 border-b border-transparent bg-canvas/80 backdrop-blur-md transition-[border-color,box-shadow] duration-200 data-scrolled:border-border data-scrolled:shadow-(--shadow-nav)"
->
+<!-- Floating island: el header solo posiciona (separado del borde superior),
+     el fondo/borde/sombra de la isla viven en el <nav> de abajo. -->
+<header id="site-header" class="sticky top-4 z-40 px-4">
   <!-- Grid de 3 columnas (auto / 1fr / auto) en vez de flex+justify-between:
        así el logo y el grupo de la derecha reservan su propia columna y la
        del medio (links) nunca puede invadirlos, por angosta que quede. -->
-  <nav aria-label="Navegación principal" class="relative mx-auto grid h-16 max-w-5xl grid-cols-[auto_1fr_auto] items-center gap-4 px-4">
+  <nav aria-label="Navegación principal" class="relative mx-auto grid h-16 max-w-6xl grid-cols-[auto_1fr_auto] items-center gap-4 rounded-3xl border border-border bg-canvas/80 px-4 backdrop-blur-md shadow-(--shadow-nav)">
     <a
       href="#inicio"
       class="focus-ring rounded-chip font-display text-lg font-bold tracking-tight text-ink"
@@ -150,9 +147,7 @@ const navLinks = [
     }
   });
 
-  // Estado "scrolled" del header y link activo del nav. Los dos dependen del
-  // scroll, así que comparten un solo listener pasivo.
-  const header = document.getElementById('site-header');
+  // Link activo del nav según la sección visible: depende del scroll.
   const sections = Array.from(document.querySelectorAll<HTMLElement>('main section[id]'));
   const linksByHash = new Map(
     Array.from(menu?.querySelectorAll<HTMLAnchorElement>('a[href^="#"]') ?? []).map((a) => [a.hash, a])
@@ -163,8 +158,6 @@ const navLinks = [
   const MARKER_Y = 80;
 
   const syncNav = () => {
-    header?.toggleAttribute('data-scrolled', window.scrollY > 8);
-
     if (!sections.length) return;
 
     let current = sections[0];
