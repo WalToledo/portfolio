@@ -10,9 +10,14 @@
 interface Props {
   eyebrow: string;
   title: string;
+  // Rutas en el diccionario de i18n (src/data/i18n.ts) para que el toggle de
+  // idioma del Navbar sepa qué traducir. Opcionales: sin ellas el encabezado
+  // queda fijo en el idioma con el que se renderizó.
+  eyebrowKey?: string;
+  titleKey?: string;
 }
 
-const { eyebrow, title } = Astro.props;
+const { eyebrow, title, eyebrowKey, titleKey } = Astro.props;
 ---
 
 <div class="flex flex-col gap-3">
@@ -21,10 +26,10 @@ const { eyebrow, title } = Astro.props;
        degradado (.rule-accent, global.css) compartido con el eyebrow del Hero. -->
   <p class="flex items-center gap-3 font-mono text-xs font-medium tracking-[0.18em] text-accent-text uppercase">
     <span aria-hidden="true" class="rule-accent"></span>
-    <span>{eyebrow}</span>
+    <span data-i18n={eyebrowKey}>{eyebrow}</span>
   </p>
 
-  <h2 class="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+  <h2 class="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl" data-i18n={titleKey}>
     {title}
   </h2>
 </div>

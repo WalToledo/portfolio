@@ -2,11 +2,11 @@
 import SocialIcon from './SocialIcon.astro';
 
 const navLinks = [
-  { href: '#inicio', label: 'Inicio' },
-  { href: '#sobre-mi', label: 'Sobre mí' },
-  { href: '#experiencia', label: 'Experiencia' },
-  { href: '#proyectos', label: 'Proyectos' },
-  { href: '#contacto', label: 'Contacto' },
+  { href: '#inicio', label: 'Inicio', key: 'nav.inicio' },
+  { href: '#sobre-mi', label: 'Sobre mí', key: 'nav.sobreMi' },
+  { href: '#experiencia', label: 'Experiencia', key: 'nav.experiencia' },
+  { href: '#proyectos', label: 'Proyectos', key: 'nav.proyectos' },
+  { href: '#contacto', label: 'Contacto', key: 'nav.contacto' },
 ];
 ---
 
@@ -42,6 +42,7 @@ const navLinks = [
                aria-current no está entre las variantes aria por defecto de Tailwind. -->
           <a
             href={link.href}
+            data-i18n={link.key}
             class="focus-ring block rounded-control px-3 py-2 text-sm text-muted transition-colors hover:bg-band hover:text-ink aria-[current=page]:bg-accent-subtle aria-[current=page]:text-accent-text lg:py-1.5"
           >
             {link.label}
@@ -50,9 +51,22 @@ const navLinks = [
       ))}
     </ul>
 
-    <!-- Grupo de la derecha: solo el toggle de tema y Descargar CV (más la
-         hamburguesa, que es mobile-only y abre el menú centrado de arriba). -->
+    <!-- Grupo de la derecha: toggle de idioma, toggle de tema y Descargar CV
+         (más la hamburguesa, que es mobile-only y abre el menú centrado de arriba). -->
     <div class="flex items-center gap-1 justify-self-end md:gap-3">
+      <!-- Toggle de idioma ES/EN. El texto visible es el código del idioma AL
+           QUE CAMBIA (no se traduce: son códigos ISO). El idioma inicial se
+           aplica en Base.astro (script en <head>, solo fija <html lang>). -->
+      <button
+        id="lang-toggle"
+        type="button"
+        aria-pressed="false"
+        aria-label="Cambiar a inglés"
+        class="focus-ring inline-flex min-w-9 items-center justify-center rounded-control p-2.5 text-xs font-semibold tracking-wide text-muted transition-colors hover:bg-band hover:text-ink"
+      >
+        EN
+      </button>
+
       <!-- Toggle de tema claro/oscuro. El tema inicial se aplica en Base.astro (script en <head>). -->
       <button
         id="theme-toggle"
@@ -78,10 +92,11 @@ const navLinks = [
         download
         type="application/pdf"
         aria-label="Descargar CV"
+        data-i18n-aria-label="nav.downloadCv"
         class="focus-ring inline-flex items-center gap-2 rounded-control px-2.5 py-2.5 text-sm text-muted transition-colors hover:bg-band hover:text-ink sm:px-3"
       >
         <SocialIcon name="download" class="h-5 w-5" />
-        <span class="hidden sm:inline">Descargar CV</span>
+        <span class="hidden sm:inline" data-i18n="nav.downloadCv">Descargar CV</span>
       </a>
 
       <!-- Botón hamburguesa, solo mobile -->
@@ -102,14 +117,27 @@ const navLinks = [
 </header>
 
 <script>
+  import { translations } from '../data/i18n';
+
+  const root = document.documentElement;
+
+  // Lee una ruta tipo "nav.downloadCv" dentro de un objeto de traducciones.
+  const getByPath = (obj: unknown, path: string): string | undefined =>
+    path.split('.').reduce<unknown>((acc, key) => {
+      if (acc && typeof acc === 'object' && key in acc) return (acc as Record<string, unknown>)[key];
+      return undefined;
+    }, obj) as string | undefined;
+
+  const currentLang = (): 'es' | 'en' => (root.lang === 'en' ? 'en' : 'es');
+
   // Toggle de tema: invierte la clase "dark" en <html> y guarda la preferencia.
   const themeToggle = document.getElementById('theme-toggle');
-  const root = document.documentElement;
 
   const syncThemeToggle = () => {
     const isDark = root.classList.contains('dark');
+    const t = translations[currentLang()].nav;
     themeToggle?.setAttribute('aria-pressed', String(isDark));
-    themeToggle?.setAttribute('aria-label', isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
+    themeToggle?.setAttribute('aria-label', isDark ? t.themeToLight : t.themeToDark);
   };
 
   syncThemeToggle();
@@ -120,16 +148,85 @@ const navLinks = [
     syncThemeToggle();
   });
 
+  // Toggle de idioma: traduce todo el texto marcado con data-i18n* y guarda
+  // la preferencia. El texto del botón siempre es el código del idioma AL
+  // QUE CAMBIA (no se traduce: son códigos ISO).
+  const langToggle = document.getElementById('lang-toggle');
+
+  const applyLang = (lang: 'es' | 'en') => {
+    root.lang = lang;
+    const dict = translations[lang];
+
+    document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((el) => {
+      const value = getByPath(dict, el.dataset.i18n ?? '');
+      if (value !== undefined) el.textContent = value;
+    });
+
+    document.querySelectorAll<HTMLElement>('[data-i18n-aria-label]').forEach((el) => {
+      const value = getByPath(dict, el.dataset.i18nAriaLabel ?? '');
+      if (value !== undefined) el.setAttribute('aria-label', value);
+    });
+
+    document.querySelectorAll<HTMLElement>('[data-i18n-placeholder]').forEach((el) => {
+      const value = getByPath(dict, el.dataset.i18nPlaceholder ?? '');
+      if (value !== undefined) el.setAttribute('placeholder', value);
+    });
+
+    document.querySelectorAll<HTMLElement>('[data-i18n-content]').forEach((el) => {
+      const value = getByPath(dict, el.dataset.i18nContent ?? '');
+      if (value !== undefined) el.setAttribute('content', value);
+    });
+
+    document.querySelectorAll<HTMLElement>('[data-i18n-alt]').forEach((el) => {
+      const value = getByPath(dict, el.dataset.i18nAlt ?? '');
+      if (value !== undefined) el.setAttribute('alt', value);
+    });
+
+    // Contenido dinámico de los data files (experience/projects/skills): cada
+    // nodo ya trae ambos idiomas en sus propios data-attributes.
+    document.querySelectorAll<HTMLElement>('[data-i18n-es][data-i18n-en]').forEach((el) => {
+      const value = lang === 'en' ? el.dataset.i18nEn : el.dataset.i18nEs;
+      if (value !== undefined) el.textContent = value;
+    });
+
+    langToggle?.setAttribute('aria-pressed', String(lang === 'en'));
+    langToggle?.setAttribute('aria-label', lang === 'en' ? 'Switch to Spanish' : 'Cambiar a inglés');
+    if (langToggle) langToggle.textContent = lang === 'en' ? 'ES' : 'EN';
+
+    syncThemeToggle();
+    syncMenuAria();
+
+    // Otros componentes (ej. la validación del form de Contacto) escuchan
+    // este evento para re-traducir mensajes dinámicos que no son data-i18n.
+    document.dispatchEvent(new CustomEvent('app:langchange', { detail: { lang } }));
+  };
+
+  langToggle?.addEventListener('click', () => {
+    const next = currentLang() === 'en' ? 'es' : 'en';
+    localStorage.setItem('lang', next);
+    applyLang(next);
+  });
+
   // Menú mobile: abrir/cerrar, cerrar con Escape, cerrar al elegir un link.
   const toggle = document.getElementById('nav-toggle');
   const menu = document.getElementById('nav-menu');
+
+  const syncMenuAria = () => {
+    const isOpen = toggle?.getAttribute('aria-expanded') === 'true';
+    const t = translations[currentLang()].nav;
+    toggle?.setAttribute('aria-label', isOpen ? t.closeMenu : t.openMenu);
+  };
 
   const setOpen = (open: boolean) => {
     menu?.classList.toggle('hidden', !open);
     menu?.classList.toggle('flex', open);
     toggle?.setAttribute('aria-expanded', String(open));
-    toggle?.setAttribute('aria-label', open ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
+    syncMenuAria();
   };
+
+  // Sincroniza con el idioma que ya fijó el anti-flash de Base.astro (por si
+  // el usuario había elegido inglés en una visita anterior).
+  applyLang(currentLang());
 
   toggle?.addEventListener('click', () => {
     const isOpen = toggle.getAttribute('aria-expanded') === 'true';

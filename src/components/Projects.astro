@@ -2,12 +2,15 @@
 import { projects } from '../data/projects.ts';
 import SectionHeading from './SectionHeading.astro';
 import SocialIcon from './SocialIcon.astro';
+import { translations } from '../data/i18n';
+
+const t = translations.es.projects;
 ---
 
 <section id="proyectos" class="scroll-mt-20 bg-band section-tint">
   <div class="mx-auto max-w-5xl px-4 py-20 sm:py-24">
     <div data-reveal>
-      <SectionHeading eyebrow="Trabajo" title="Proyectos" />
+      <SectionHeading eyebrow={t.eyebrow} title={t.title} eyebrowKey="projects.eyebrow" titleKey="projects.title" />
     </div>
 
     <!-- .projects-grid / .project-card usan CSS subgrid (ver global.css): cada
@@ -23,7 +26,9 @@ import SocialIcon from './SocialIcon.astro';
         >
           <div>
             <h3 class="project-title font-display text-xl font-medium">{title}</h3>
-            <p class="mt-2 text-[0.9375rem] leading-relaxed text-muted">{description}</p>
+            <p class="mt-2 text-[0.9375rem] leading-relaxed text-muted" data-i18n-es={description.es} data-i18n-en={description.en}>
+              {description.es}
+            </p>
           </div>
 
           <!-- El bloque de stack se alinea al FINAL de su fila del subgrid: como
@@ -31,8 +36,8 @@ import SocialIcon from './SocialIcon.astro';
                descripción y los chips (lectura intencional) en vez de abrirse un
                hueco entre los chips y la línea del link. -->
           <div class="flex flex-col justify-end gap-2.5">
-            <p class="font-mono text-[0.6875rem] font-medium tracking-[0.18em] text-muted uppercase">
-              Stack
+            <p class="font-mono text-[0.6875rem] font-medium tracking-[0.18em] text-muted uppercase" data-i18n="projects.stackLabel">
+              {t.stackLabel}
             </p>
             <ul class="flex flex-wrap gap-2">
               {stack.map((tech) => (
@@ -51,7 +56,8 @@ import SocialIcon from './SocialIcon.astro';
               <SocialIcon name="github" class="h-4 w-4 shrink-0" />
               {/* El texto visible queda corto y el nombre accesible sigue siendo
                   específico ("Ver repositorio de CineTracker"), como pide SPECS. */}
-              Ver repositorio<span class="sr-only"> de {title}</span>
+              <span data-i18n="projects.viewRepo">{t.viewRepo}</span>
+              <span class="sr-only"> <span data-i18n="projects.of">{t.of}</span> {title}</span>
               <SocialIcon name="arrow-right" class="project-arrow h-4 w-4 shrink-0" />
             </a>
           </div>

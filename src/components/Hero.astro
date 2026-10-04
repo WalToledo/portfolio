@@ -2,18 +2,11 @@
 import { Image } from 'astro:assets';
 import avatar from '../assets/avatar.jpeg';
 import SocialIcon from './SocialIcon.astro';
+import { translations } from '../data/i18n';
 
-const name = 'Walter Toledo';
+const t = translations.es.hero;
 const firstName = 'Walter';
 const lastName = 'Toledo';
-// "Analista en Sistemas Informáticos" pasa a ser el rótulo de arriba (eyebrow):
-// es la credencial, y así el Hero arranca con el mismo ancla de acento que las
-// otras 4 secciones (ver SectionHeading).
-const eyebrow = 'Analista en Sistemas Informáticos';
-const roleLead = 'Desarrollador de Software';
-const roleAccent = 'Fullstack';
-const taglineLead = 'Construyo productos web de punta a punta,';
-const taglineAccent = 'del diseño al deploy.';
 
 const heroLinks = [
   { name: 'github' as const, label: 'GitHub', href: 'https://github.com/WalToledo' },
@@ -55,7 +48,7 @@ const heroLinks = [
           class="flex items-center justify-center gap-3 font-mono text-xs font-medium tracking-[0.18em] text-accent-text uppercase md:justify-start"
         >
           <span aria-hidden="true" class="rule-accent hidden md:block"></span>
-          <span>{eyebrow}</span>
+          <span data-i18n="hero.eyebrow">{t.eyebrow}</span>
         </p>
 
         <h1
@@ -72,15 +65,16 @@ const heroLinks = [
 
         <!-- Jerarquía: el rol es lo segundo que se lee, así que va en "ink". -->
         <p data-reveal-load style="--reveal-delay: 190ms" class="font-display text-xl font-medium text-ink sm:text-2xl">
-          {roleLead}{' '}<span class="text-accent-text">{roleAccent}</span>
+          <span data-i18n="hero.roleLead">{t.roleLead}</span>{' '}<span class="text-accent-text" data-i18n="hero.roleAccent">{t.roleAccent}</span>
         </p>
         <p data-reveal-load style="--reveal-delay: 290ms" class="max-w-md text-lg leading-relaxed text-muted text-pretty">
           <!-- inline-block: la frase subrayada es una unidad atómica, así el
                renglón corta ANTES de ella y el subrayado de acento nunca queda
                partido entre dos líneas. -->
-          {taglineLead}{' '}<span
+          <span data-i18n="hero.taglineLead">{t.taglineLead}</span>{' '}<span
             class="inline-block font-medium text-ink underline decoration-accent/50 decoration-2 underline-offset-4"
-            >{taglineAccent}</span
+            data-i18n="hero.taglineAccent"
+            >{t.taglineAccent}</span
           >
         </p>
       </div>
@@ -90,10 +84,10 @@ const heroLinks = [
         style="--reveal-delay: 350ms"
         class="mt-1 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center"
       >
-        <a href="#proyectos" class="btn btn-primary focus-ring">Ver proyectos</a>
+        <a href="#proyectos" class="btn btn-primary focus-ring" data-i18n="hero.viewProjects">{t.viewProjects}</a>
         <a href="/cv-walter-toledo.pdf" download type="application/pdf" class="btn btn-secondary focus-ring inline-flex items-center gap-2">
           <SocialIcon name="download" class="h-4 w-4" />
-          Descargar CV
+          <span data-i18n="hero.downloadCv">{t.downloadCv}</span>
         </a>
       </div>
 
@@ -132,7 +126,7 @@ const heroLinks = [
             class="focus-ring inline-flex items-center gap-2 rounded-chip py-1.5 text-sm text-muted transition-colors hover:text-accent-text"
           >
             <SocialIcon name="email" class="h-4 w-4" />
-            Contactarme
+            <span data-i18n="hero.contactMe">{t.contactMe}</span>
           </a>
         </li>
       </ul>
@@ -146,7 +140,8 @@ const heroLinks = [
       <div class="avatar-ring">
         <Image
           src={avatar}
-          alt={`Foto de perfil de ${name}`}
+          alt={t.avatarAlt}
+          data-i18n-alt="hero.avatarAlt"
           width={576}
           height={576}
           loading="eager"
