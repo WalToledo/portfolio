@@ -22,7 +22,7 @@ Todo lo marcado con `PENDIENTE` lo completa Walter antes de trabajar el hito cor
 | JavaScript en cliente | Solo scripts chicos e inline: menú mobile, tema, animaciones, validación del form |
 | Imágenes | Componente `<Image>` de `astro:assets` (WebP, tamaños definidos) |
 | Deploy | Vercel (plan gratuito). Sitio estático, no requiere adapter. URL: `https://portfolio-walter-toledo.vercel.app` (declarada como `site` en `astro.config.mjs`; si al deployar cambia, se actualiza ahí) |
-| Formulario | Servicio externo gratuito (Web3Forms o Formspree), ya que Vercel no procesa formularios sin backend. `PENDIENTE: elegir uno` |
+| Formulario | [Web3Forms](https://web3forms.com) (servicio externo gratuito), ya que Vercel no procesa formularios sin backend |
 | Idioma del sitio | Español por defecto (`<html lang="es">`), con toggle a inglés desde el Navbar |
 
 ## 3. Contenido
@@ -61,46 +61,6 @@ Los datos viven en `src/data/experience.ts` (nuevo archivo, mismo patrón que `p
 Cada proyecto: título, descripción breve (1–2 oraciones), tecnologías, link a repo y/o demo.
 Los datos viven en `src/data/projects.ts`.
 
-Proyectos confirmados:
-
-1. **CineTracker**
-Descripcion: aplicación web diseñada para que los amantes del cine puedan descubrir nuevos títulos, gestionar su propia lista de visualización y dar reseñas de cada lanzamiento.
-
-Stack: Arquitectura: Monorepositorio (workspaces de npm / carpeta raíz con frontend y backend).
-Frontend: React (construido con Vite), TypeScript, Tailwind CSS.
-Backend: Node.js, Express, TypeScript.
-Base de Datos & ORM: MySQL, Prisma.
-Testing: Vitest (runner global), Supertest (API del backend), React Testing Library (componentes del frontend).
-IA: Integración con Context7 MCP.
-
-Repositorio: https://github.com/WalToledo/cine-tracker
-
-2. **SmartCloth Logistics**
-Descripcion: PLATAFORMA E-COMMERCE Y GESTIÓN LOGÍSTICA. Solución integral para automatizar la distribución de indumentaria, conectando una tienda online con un sistema de logística de precisión.
-
-Stack: rquitectura N-Capas utilizando React y Next.js para el frontend y
-Node.js para la lógica de negocio.
-Integración de servicios SaaS, incluyendo Stripe para pagos, Clerk para
-autenticación y Resend para notificaciones.
-Gestión de persistencia utilizando Sanity (Content Lake) con consultas GROQ, y  
-Prisma ORM con MySQL para modelar el esquema del módulo de auditoría.
-
-Repositorio: https://github.com/fassardi245/SmartCloth
-
-
-3. **Grito de Gol** 
-Descripcion: Dashboard interactivo para la visualización dinámica de información sobre ligas, equipos, partidos y estadísticas de fútbol.
-
-Stack: Construcción de la interfaz y lógica del cliente con Next.js, TypeScript y Tailwind
-CSS, implementando navegación drill down y paneles interactivos de posiciones
-con semaforización de resultados.
-Diseño de la arquitectura de base de datos relacional con MySQL, integrada
-mediante Prisma ORM.
-
-Repositorio: https://github.com/WalToledo/GritoDeGol
-
-> Proyectos de clientes/grupales: permiso para mostrarlos confirmado por Walter.
-
 ### 3.5 Contacto
 
 - **Email:** toledowalter836@gmail.com
@@ -113,8 +73,7 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 
 - Link "Descargar CV" en el Hero (fila de links, junto a GitHub y LinkedIn), apuntando a
   `/cv-walter-toledo.pdf` con el atributo `download`.
-- `PENDIENTE`: dejar el archivo en `public/cv-walter-toledo.pdf`. El link ya está en su lugar;
-  hasta que el PDF exista responde 404.
+- Archivo en `public/cv-walter-toledo.pdf`.
 
 ## 4. Requisitos por sección
 
@@ -207,7 +166,7 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 - [x] `header`, `nav`, `main`, `section`, `footer` y un solo `h1`
 - [x] `alt` en todas las imágenes, contraste legible, navegable con teclado
 - [x] Cero contenido de relleno
-- [ ] Commits progresivos en GitHub
+- [x] Commits progresivos en GitHub
 - [x] README con stack y cómo correrlo localmente
 - [x] Deploy público en Vercel
 
@@ -215,6 +174,6 @@ Repositorio: https://github.com/WalToledo/GritoDeGol
 - [x] Formulario con validación
 - [x] Modo oscuro y claro
 - [x] Animaciones que respetan `prefers-reduced-motion`
-- [ ] CV descargable en PDF
+- [x] CV descargable en PDF
 - [x] Lighthouse ≥ 90 en Performance y Accessibility
 - [x] Toggle de idioma ES/EN en el navbar
