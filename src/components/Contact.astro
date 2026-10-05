@@ -17,31 +17,29 @@ const contactLinks = [
 const WEB3FORMS_ACCESS_KEY = '9e169e33-9cb8-4ecc-83a0-b5c3d2ff8416';
 ---
 
-<section id="contacto" class="scroll-mt-20 bg-canvas">
+<!-- Los glows y el filete de acento van en la SECCIÓN (no en un panel que
+     encierre el contenido): mismo patrón que el Hero con .hero-glow, así el
+     bloque resalta sobre el canvas sin meter todo dentro de una caja.
+     isolate + -z-10 crea el contexto de apilado propio que deja los adornos
+     detrás del texto y de las cards. -->
+<section id="contacto" class="relative isolate scroll-mt-20 overflow-hidden bg-canvas">
+  <div aria-hidden="true" class="contact-glow pointer-events-none absolute inset-0 -z-10"></div>
+  <div aria-hidden="true" class="contact-glow-alt pointer-events-none absolute inset-0 -z-10"></div>
+  <div aria-hidden="true" class="contact-rule-accent pointer-events-none absolute inset-x-0 top-0 h-[3px] -z-10"></div>
+
   <div class="mx-auto max-w-5xl px-4 py-20 sm:py-24">
-    <!-- Encabezado, tarjetas de contacto y form viven en UN solo panel (no dos
-         bloques apilados): entran juntos con el mismo data-reveal y el fondo
-         bg-band + glow azul + borde con tinte de acento hacen que todo el
-         bloque resalte sobre el canvas, en vez de perderse contra él. -->
-    <div
-      data-reveal
-      class="relative isolate overflow-hidden rounded-card border border-accent/15 bg-band p-6 shadow-(--shadow-panel) sm:p-10"
-    >
-      <div aria-hidden="true" class="contact-glow pointer-events-none absolute inset-0 -z-10"></div>
-      <div aria-hidden="true" class="contact-glow-alt pointer-events-none absolute inset-0 -z-10"></div>
-      <div aria-hidden="true" class="contact-rule-accent pointer-events-none absolute inset-x-0 top-0 h-[3px] -z-10"></div>
+    <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+      <div data-reveal>
+        <SectionHeading eyebrow={t.eyebrow} title={t.title} eyebrowKey="contact.eyebrow" titleKey="contact.title" />
 
-      <SectionHeading eyebrow={t.eyebrow} title={t.title} eyebrowKey="contact.eyebrow" titleKey="contact.title" />
+        <p class="mt-6 max-w-prose text-lg leading-relaxed text-muted" data-i18n="contact.intro">
+          {t.intro}
+        </p>
 
-      <p class="mt-6 max-w-prose text-lg leading-relaxed text-muted" data-i18n="contact.intro">
-        {t.intro}
-      </p>
-
-      <div class="mt-10 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
         <!-- Cada vía de contacto es una card con el mismo lenguaje que Proyectos
              y Sobre mí (borde + superficie + acento en hover), en vez de filas
              sueltas: la columna izquierda deja de verse como una lista plana. -->
-        <ul class="flex flex-col gap-3">
+        <ul class="mt-8 flex flex-col gap-3">
           {contactLinks.map((link) => (
             <li>
               <a
@@ -63,77 +61,79 @@ const WEB3FORMS_ACCESS_KEY = '9e169e33-9cb8-4ecc-83a0-b5c3d2ff8416';
             </li>
           ))}
         </ul>
-
-        <form
-          id="contact-form"
-          novalidate
-          data-access-key={WEB3FORMS_ACCESS_KEY}
-          class="card flex flex-col gap-4 p-6 sm:p-8"
-        >
-          <div class="flex flex-col gap-1.5">
-            <label for="name" class="text-sm font-medium text-ink" data-i18n="contact.form.nameLabel">{t.form.nameLabel}</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              required
-              minlength="2"
-              placeholder={t.form.namePlaceholder}
-              data-i18n-placeholder="contact.form.namePlaceholder"
-              aria-describedby="name-error"
-              class="field focus-ring"
-            />
-            <!-- min-h reserva el renglón del error: que aparezca no empuja el layout. -->
-            <p id="name-error" aria-live="polite" class="min-h-5 text-sm text-danger-text"></p>
-          </div>
-
-          <div class="flex flex-col gap-1.5">
-            <label for="email" class="text-sm font-medium text-ink" data-i18n="contact.form.emailLabel">{t.form.emailLabel}</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              placeholder={t.form.emailPlaceholder}
-              data-i18n-placeholder="contact.form.emailPlaceholder"
-              aria-describedby="email-error"
-              class="field focus-ring"
-            />
-            <p id="email-error" aria-live="polite" class="min-h-5 text-sm text-danger-text"></p>
-          </div>
-
-          <div class="flex flex-col gap-1.5">
-            <label for="message" class="text-sm font-medium text-ink" data-i18n="contact.form.messageLabel">{t.form.messageLabel}</label>
-            <textarea
-              id="message"
-              name="message"
-              rows="5"
-              required
-              minlength="10"
-              maxlength="2000"
-              placeholder={t.form.messagePlaceholder}
-              data-i18n-placeholder="contact.form.messagePlaceholder"
-              aria-describedby="message-hint message-error"
-              class="field focus-ring resize-y"
-            ></textarea>
-            <!-- El límite se dice ANTES de escribir (no solo al fallar la
-                 validación) y el contador lo confirma mientras se tipea. -->
-            <p id="message-hint" class="flex items-center justify-between gap-3 text-xs text-muted">
-              <span data-i18n="contact.form.messageHint">{t.form.messageHint}</span>
-              <span id="message-count" class="font-mono tabular-nums">0 / 2000</span>
-            </p>
-            <p id="message-error" aria-live="polite" class="min-h-5 text-sm text-danger-text"></p>
-          </div>
-
-          <div class="flex flex-wrap items-center gap-4">
-            <button type="submit" class="btn btn-primary focus-ring disabled:opacity-60">
-              <span data-i18n="contact.form.submit">{t.form.submit}</span>
-              <SocialIcon name="arrow-right" class="h-4 w-4 shrink-0" />
-            </button>
-            <p id="form-status" role="status" aria-live="polite" class="text-sm text-muted"></p>
-          </div>
-        </form>
       </div>
+
+      <form
+        id="contact-form"
+        novalidate
+        data-access-key={WEB3FORMS_ACCESS_KEY}
+        data-reveal
+        style="--reveal-delay: 100ms"
+        class="card flex flex-col gap-4 p-6 sm:p-8"
+      >
+        <div class="flex flex-col gap-1.5">
+          <label for="name" class="text-sm font-medium text-ink" data-i18n="contact.form.nameLabel">{t.form.nameLabel}</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            minlength="2"
+            placeholder={t.form.namePlaceholder}
+            data-i18n-placeholder="contact.form.namePlaceholder"
+            aria-describedby="name-error"
+            class="field focus-ring"
+          />
+          <!-- min-h reserva el renglón del error: que aparezca no empuja el layout. -->
+          <p id="name-error" aria-live="polite" class="min-h-5 text-sm text-danger-text"></p>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="email" class="text-sm font-medium text-ink" data-i18n="contact.form.emailLabel">{t.form.emailLabel}</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            placeholder={t.form.emailPlaceholder}
+            data-i18n-placeholder="contact.form.emailPlaceholder"
+            aria-describedby="email-error"
+            class="field focus-ring"
+          />
+          <p id="email-error" aria-live="polite" class="min-h-5 text-sm text-danger-text"></p>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="message" class="text-sm font-medium text-ink" data-i18n="contact.form.messageLabel">{t.form.messageLabel}</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            required
+            minlength="10"
+            maxlength="2000"
+            placeholder={t.form.messagePlaceholder}
+            data-i18n-placeholder="contact.form.messagePlaceholder"
+            aria-describedby="message-hint message-error"
+            class="field focus-ring resize-y"
+          ></textarea>
+          <!-- El límite se dice ANTES de escribir (no solo al fallar la
+               validación) y el contador lo confirma mientras se tipea. -->
+          <p id="message-hint" class="flex items-center justify-between gap-3 text-xs text-muted">
+            <span data-i18n="contact.form.messageHint">{t.form.messageHint}</span>
+            <span id="message-count" class="font-mono tabular-nums">0 / 2000</span>
+          </p>
+          <p id="message-error" aria-live="polite" class="min-h-5 text-sm text-danger-text"></p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4">
+          <button type="submit" class="btn btn-primary focus-ring disabled:opacity-60">
+            <span data-i18n="contact.form.submit">{t.form.submit}</span>
+            <SocialIcon name="arrow-right" class="h-4 w-4 shrink-0" />
+          </button>
+          <p id="form-status" role="status" aria-live="polite" class="text-sm text-muted"></p>
+        </div>
+      </form>
     </div>
   </div>
 </section>
