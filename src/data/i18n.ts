@@ -193,8 +193,8 @@ export const translations: Record<'es' | 'en', Translations> = {
     },
     hero: {
       eyebrow: 'Computer Systems Analyst',
-      roleLead: 'Software Developer',
-      roleAccent: 'Fullstack',
+      roleLead: 'Fullstack',
+      roleAccent: 'Software Developer',
       taglineLead: 'I build web products end to end,',
       taglineAccent: 'from design to deployment.',
       viewProjects: 'View projects',
